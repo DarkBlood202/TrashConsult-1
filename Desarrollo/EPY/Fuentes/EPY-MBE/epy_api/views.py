@@ -1,11 +1,11 @@
-from rest_framework import permissions, viewsets
+from rest_framework import permissions, viewsets, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from django.contrib.auth.models import User
 
 from .models import Pregunta
-from .serializers import PreguntaSerializer, UsuarioSerializer
+from .serializers import PreguntaSerializer, UsuarioSerializer, UsuarioCreateSerializer
 from .permissions import IsAuthorOrReadOnly
 
 @api_view(['GET'])
@@ -38,3 +38,9 @@ class UsuarioViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UsuarioSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+class UsuarioCreate(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UsuarioCreateSerializer
+    permission_classes = [permissions.AllowAny]
