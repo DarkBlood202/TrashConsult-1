@@ -9,4 +9,6 @@ router.register('usuarios', views.UsuarioViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+
+    path('registro/', views.UsuarioCreate.as_view()),
 ]
