@@ -9,3 +9,5 @@ pip-delete-this-directory.txt
 target/
 build/
 dist/
+
+node_modules
