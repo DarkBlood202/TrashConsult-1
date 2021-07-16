@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import Pregunta from './Pregunta';
 
 export class Inicio extends Component {
@@ -19,7 +19,6 @@ export class Inicio extends Component {
                 this.setState({
                     preguntas: data,
                 });
-                console.log(data);
             });
     }
 
@@ -30,7 +29,7 @@ export class Inicio extends Component {
                     <div className="cards">
                         {this.state.preguntas.map(pregunta => {
                             return (
-                                <Pregunta key={pregunta.id} pregunta={pregunta} />
+                                <Pregunta key={pregunta.url} pregunta={pregunta} />
                             )
                         })}
                     </div>
