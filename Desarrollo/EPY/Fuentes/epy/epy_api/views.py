@@ -43,3 +43,19 @@ class UsuarioCreate(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UsuarioCreateSerializer
     permission_classes = [permissions.AllowAny]
+
+class UsuarioActual(views.APIView):
+    def get(self, req):
+        serializer = UsuarioSerializer(req.user)
+        return Response(serializer.data)
+
+# @api_view(['GET'])
+# def obtenerUsuarioActual(req):
+#     user = req.user
+#     return Response({
+#         'username': user.username,
+#         'first_name': user.first_name,
+#         'last_name': user.last_name,
+#         'is_estudiante': user.is_estudiante,
+#         'is_profesor': user.is_profesor
+#     })

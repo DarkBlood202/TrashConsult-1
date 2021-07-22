@@ -1,7 +1,83 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 export class NavBar extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            usuarioLogueado: false,
+            usuario: {
+                id: null,
+                first_name: "",
+                last_name: "",
+                username: "",
+                is_estudiante: false,
+                is_profesor: false
+            },
+        }
+        this.obtenerUsuarioActual();
+    }
+
+    obtenerUsuarioActual() {
+        axios.get('/api/obtener-usuario')
+            .then(res => {
+                if (res.data.id == null && res.data.username == "") {
+                    this.setState({
+                        usuarioLogueado: false
+                    })
+                } else {
+                    this.setState({
+                        usuarioLogueado: true,
+                        usuario: res.data,
+                    })
+                }
+            })
+    }
+
     render() {
+        let navbarOptions;
+        let dropdownOptions;
+
+        if (this.state.usuarioLogueado) {
+            dropdownOptions = (
+                <div className="dropdown-menu">
+                    <a className="dropdown-item" href="/perfil">Perfil</a>
+                    <a className="dropdown-item" href="/ayuda">Ayuda</a>
+                    <div className="dropdown-divider" />
+                    <a className="dropdown-item" href="/api-auth/logout/?next=/">Cerrar Sesion</a>
+                </div>
+            );
+            navbarOptions = (
+                <ul className="navbar-nav me-auto">
+                    <li className="nav-item">
+                        <a className="nav-link" href="/inicio">Inicio</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="/mis-preguntas">Mis Preguntas</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="/sobre-nosotros">Sobre Nosotros</a>
+                    </li>
+                </ul>
+            );
+        } else {
+            dropdownOptions = (
+                <div className="dropdown-menu">
+                    <a className="dropdown-item" href="/ayuda">Ayuda</a>
+                    <div className="dropdown-divider" />
+                    <a className="dropdown-item" href="/">Iniciar Sesion</a>
+                    <a className="dropdown-item" href="/registro">Regístrate</a>
+                </div>
+            );
+            navbarOptions = (
+                <ul className="navbar-nav me-auto">
+                    <li className="nav-item">
+                        <a className="nav-link" href="/sobre-nosotros">Sobre Nosotros</a>
+                    </li>
+                </ul>
+            );
+        }
+
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container-fluid">
@@ -14,17 +90,7 @@ export class NavBar extends Component {
                         <span className="navbar-toggler-icon" />
                     </button>
                     <div className="collapse navbar-collapse" id="navbarColor02">
-                        <ul className="navbar-nav me-auto">
-                            <li className="nav-item">
-                                <a className="nav-link" href="/inicio">Inicio</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="/mis-preguntas">Mis Preguntas</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="/sobre-nosotros">Sobre Nosotros</a>
-                            </li>
-                        </ul>
+                        {navbarOptions}
                         <div className="nav-item dropdown">
                             <a
                                 className="nav-link dropdown-toggle"
@@ -33,14 +99,10 @@ export class NavBar extends Component {
                                 aria-haspopup="true"
                                 aria-expanded="false"
                             >
-                                Opciones &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                {this.state.usuarioLogueado ? this.state.usuario.username : "Opciones"}
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             </a>
-                            <div className="dropdown-menu">
-                                <a className="dropdown-item" href="/perfil">Perfil</a>
-                                <a className="dropdown-item" href="/ayuda">Ayuda</a>
-                                <div className="dropdown-divider" />
-                                <a className="dropdown-item" href="/api-auth/logout/?next=/">Cerrar Sesion</a>
-                            </div>
+                            {dropdownOptions}
                         </div>
                     </div>
                 </div>

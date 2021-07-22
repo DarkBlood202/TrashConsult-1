@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // Components
 import NavBar from './NavBar';
+import Registro from './Registro';
 import Login from './Login';
 import Perfil from './Perfil';
 import Inicio from './Inicio';
@@ -22,6 +23,7 @@ export class App extends Component {
             <Router>
                 <Switch>
                     <Route exact path='/' component={Login} />
+                    <Route path='/registro' component={Registro} />
                     <Route path='/perfil' component={Perfil} />
                     <Route path='/inicio' component={Inicio} />
                     <Route path='/sobre-nosotros' component={SobreNosotros} />

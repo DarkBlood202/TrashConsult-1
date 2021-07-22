@@ -24,8 +24,6 @@ export class Login extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
-        // alert(this.state.username + this.state.password);
-
         var bodyFormData = new FormData();
 
         bodyFormData.append('username', this.state.username);
@@ -38,12 +36,24 @@ export class Login extends Component {
             },
         })
             .then(res => {
-                // console.log(res);
-                window.location.replace('/inicio');
+                if (res.status > 400) {
+                    console.log(res);
+                } else {
+                    axios.get('/api/obtener-usuario')
+                        .then(res => {
+                            if (res.data.id == null && res.data.username == "") {
+                                window.location.replace('/');
+                            }
+                            else {
+                                window.location.replace('/inicio');
+                            }
+                        })
+                    // console.log(res.data);
+                }
             })
             .catch(res => {
                 console.log(res);
-            })
+            });
 
     }
 
@@ -51,7 +61,7 @@ export class Login extends Component {
         return (
             <div className="login-box">
                 <img src="/static/epy_mfe/logo1.png" className="App-logo" alt="logo" />
-                <h1>Login</h1>
+                <h1>Iniciar sesión</h1>
                 <form onSubmit={this.handleSubmit}>
                     {/* USERNAME INPUT */}
                     <label htmlFor="username">Nombre de usuario</label>
@@ -72,8 +82,7 @@ export class Login extends Component {
                         onChange={this.handleInput}
                     />
                     <input type="submit" className="btn" value="Ingresar" />
-                    <a href="/">Olvidaste tu Contraseña?</a><br />
-                    <a href="/">No tienes una cuenta?</a>
+                    <a href="/registro">¿No tienes una cuenta?</a>
                 </form>
             </div>
         )
