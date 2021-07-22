@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 export class NavBar extends Component {
     render() {
@@ -9,7 +9,7 @@ export class NavBar extends Component {
                         <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
                         <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
                     </svg>
-                    <a className="navbar-brand" href="/#">EDUPY</a>
+                    <a className="navbar-brand" href="/">EDUPY</a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon" />
                     </button>
@@ -26,12 +26,20 @@ export class NavBar extends Component {
                             </li>
                         </ul>
                         <div className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="/#" role="button" aria-haspopup="true" aria-expanded="false" >Opciones &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                            <a
+                                className="nav-link dropdown-toggle"
+                                data-bs-toggle="dropdown"
+                                href="/#" role="button"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                            >
+                                Opciones &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </a>
                             <div className="dropdown-menu">
                                 <a className="dropdown-item" href="/perfil">Perfil</a>
                                 <a className="dropdown-item" href="/ayuda">Ayuda</a>
                                 <div className="dropdown-divider" />
-                                <a className="dropdown-item" href="/#">Cerrar Sesion</a>
+                                <a className="dropdown-item" href="/api-auth/logout/?next=/">Cerrar Sesion</a>
                             </div>
                         </div>
                     </div>

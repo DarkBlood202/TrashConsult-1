@@ -1,10 +1,10 @@
-from rest_framework import permissions, viewsets, generics
+from rest_framework import permissions, viewsets, generics, views
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from django.contrib.auth.models import User
+from rest_framework.parsers import MultiPartParser
 
-from .models import Pregunta
+from .models import Pregunta, User
 from .serializers import PreguntaSerializer, UsuarioSerializer, UsuarioCreateSerializer
 from .permissions import IsAuthorOrReadOnly
 
@@ -22,6 +22,7 @@ class PreguntaViewSet(viewsets.ModelViewSet):
     """
     queryset = Pregunta.objects.all()
     serializer_class = PreguntaSerializer
+    # parser_classes = [MultiPartParser]
     permission_classes = [
         permissions.IsAuthenticated,
         IsAuthorOrReadOnly
@@ -30,15 +31,13 @@ class PreguntaViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(autor=self.request.user)
 
-
 class UsuarioViewSet(viewsets.ReadOnlyModelViewSet):
     """
     El ViewSet provee vista de lista y de detalle.
     """
     queryset = User.objects.all()
     serializer_class = UsuarioSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
+    permission_classes = [permissions.AllowAny]
 
 class UsuarioCreate(generics.CreateAPIView):
     queryset = User.objects.all()

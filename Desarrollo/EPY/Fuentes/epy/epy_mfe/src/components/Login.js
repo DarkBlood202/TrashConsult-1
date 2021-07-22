@@ -1,8 +1,50 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+
+var csrfCookie = Cookies.get('csrftoken');
 
 export class Login extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            username: '',
+            password: ''
+        }
+    }
+
+    handleInput = (event) => {
+        let nam = event.target.name;
+        let val = event.target.value;
+        this.setState({
+            [nam]: val
+        });
+    }
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+
+        // alert(this.state.username + this.state.password);
+
+        var bodyFormData = new FormData();
+
+        bodyFormData.append('username', this.state.username);
+        bodyFormData.append('password', this.state.password);
+
+        axios.post('/api-auth/login/?next=/inicio', bodyFormData, {
+            headers: {
+                'X-CSRFTOKEN': csrfCookie,
+                'Content-Type': "multipart/form-data"
+            },
+        })
+            .then(res => {
+                // console.log(res);
+                window.location.replace('/inicio');
+            })
+            .catch(res => {
+                console.log(res);
+            })
+
     }
 
     render() {
@@ -10,13 +52,25 @@ export class Login extends Component {
             <div className="login-box">
                 <img src="/static/epy_mfe/logo1.png" className="App-logo" alt="logo" />
                 <h1>Login</h1>
-                <form>
+                <form onSubmit={this.handleSubmit}>
                     {/* USERNAME INPUT */}
                     <label htmlFor="username">Nombre de usuario</label>
-                    <input type="text" name="username" placeholder="Ingrese Nombre de Usuario" />
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Ingrese Nombre de Usuario"
+                        value={this.state.username}
+                        onInput={this.handleInput}
+                    />
                     {/* PASSWORD INPUT */}
                     <label htmlFor="password">Constraseña</label>
-                    <input type="password" name="password" placeholder="Ingrese Contraseña" />
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Ingrese Contraseña"
+                        value={this.state.password}
+                        onChange={this.handleInput}
+                    />
                     <input type="submit" className="btn" value="Ingresar" />
                     <a href="/">Olvidaste tu Contraseña?</a><br />
                     <a href="/">No tienes una cuenta?</a>

@@ -12,9 +12,10 @@ export class SobreNosotros extends Component {
                         <div className="content">
                             <h3>Por qué elegir Edupy</h3>
                             <p>Edupy es una plataforma que aprovecha la tecnología y la comuniación eficaz para el aprendizaje y la tutoría dejando atrás la metodología tradicional ya obsoleta.</p>
-                            <a href="/#" type="button" className="btn btn-outline-secondary">Saber mas...</a>
+                            {/* <a href="/#" type="button" className="btn btn-outline-secondary">Saber mas...</a> */}
                         </div>
                     </section>
+                    <hr />
                     <section className="contact" id="contact">
                         <h1 className="heading">Contactanos</h1>
                         <div className="inner contact">
