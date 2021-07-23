@@ -9,7 +9,28 @@ export class Login extends Component {
         super(props);
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            usuario: {
+                id: null,
+                username: ""
+            }
+        };
+        this.obtenerUsuario();
+    }
+
+    obtenerUsuario() {
+        axios.get('/api/obtener-usuario')
+            .then(res => {
+                this.setState({
+                    usuario: res.data
+                });
+                this.redireccionInicio();
+            })
+    }
+
+    redireccionInicio() {
+        if (this.state.usuario.id != null && this.state.usuario.username != "") {
+            window.location.replace('/inicio');
         }
     }
 

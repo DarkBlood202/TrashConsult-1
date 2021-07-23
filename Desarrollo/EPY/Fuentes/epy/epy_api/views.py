@@ -1,12 +1,12 @@
-from rest_framework import permissions, viewsets, generics, views
+from rest_framework import permissions, viewsets, generics, views, mixins
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.parsers import MultiPartParser
 
-from .models import Pregunta, User
-from .serializers import PreguntaSerializer, UsuarioSerializer, UsuarioCreateSerializer
-from .permissions import IsAuthorOrReadOnly
+from .models import Pregunta, User, Estudiante, Profesor
+from .serializers import *
+from .permissions import IsAuthorOrReadOnly, IsOwnerProfileOrReadOnly as IsOwnerUserOrReadOnly, IsSameUserOrReadOnly
 
 @api_view(['GET'])
 def api_root(request, format=None):
@@ -49,13 +49,30 @@ class UsuarioActual(views.APIView):
         serializer = UsuarioSerializer(req.user)
         return Response(serializer.data)
 
-# @api_view(['GET'])
-# def obtenerUsuarioActual(req):
-#     user = req.user
-#     return Response({
-#         'username': user.username,
-#         'first_name': user.first_name,
-#         'last_name': user.last_name,
-#         'is_estudiante': user.is_estudiante,
-#         'is_profesor': user.is_profesor
-#     })
+class EstudianteViewSet(viewsets.ModelViewSet):
+    queryset = Estudiante.objects.all()
+    serializer_class = EstudianteSerializer
+    permission_classes = [
+        permissions.IsAuthenticated,
+        IsOwnerUserOrReadOnly
+    ]
+
+class ProfesorViewSet(viewsets.ModelViewSet):
+    queryset = Profesor.objects.all()
+    serializer_class = ProfesorSerializer
+    permission_classes = [
+        permissions.IsAuthenticated,
+        IsOwnerUserOrReadOnly
+    ]
+
+class UsuarioDataUpdateViewSet(viewsets.ModelViewSet):
+    """
+    Provides update methods to user data.
+    """
+    queryset = User.objects.all()
+    serializer_class = TipoUsuarioSerializer
+    permission_classes = [
+        permissions.IsAuthenticated,
+        IsSameUserOrReadOnly
+    ]
+

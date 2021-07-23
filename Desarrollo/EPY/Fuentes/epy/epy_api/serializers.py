@@ -35,6 +35,12 @@ class UsuarioSerializer(serializers.HyperlinkedModelSerializer):
         # fields = ['id', 'username', 'preguntas']
         fields = ['id', 'username', 'first_name', 'last_name', 'is_estudiante', 'is_profesor']
 
+class TipoUsuarioSerializer(serializers.ModelSerializer):
+    username = serializers.ReadOnlyField()
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'first_name', 'last_name']
+
 class UsuarioCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -66,3 +72,15 @@ class UsuarioCreateSerializer(serializers.ModelSerializer):
             profesor.save()
 
         return user
+
+class EstudianteSerializer(serializers.ModelSerializer):
+    usuario = TipoUsuarioSerializer()
+    class Meta:
+        model = Estudiante
+        fields = '__all__'
+
+class ProfesorSerializer(serializers.ModelSerializer):
+    usuario = TipoUsuarioSerializer()
+    class Meta:
+        model = Profesor
+        fields = '__all__'
