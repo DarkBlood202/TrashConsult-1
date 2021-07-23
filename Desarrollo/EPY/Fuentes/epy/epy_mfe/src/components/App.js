@@ -11,6 +11,7 @@ import Inicio from './Inicio';
 import SobreNosotros from './SobreNosotros';
 import MisPreguntas from './MisPreguntas';
 import Ayuda from './Ayuda';
+import Chat from './Chat';
 
 export class App extends Component {
     constructor(props) {
@@ -28,6 +29,7 @@ export class App extends Component {
                     <Route path='/sobre-nosotros' component={SobreNosotros} />
                     <Route path='/mis-preguntas' component={MisPreguntas} />
                     <Route path='/ayuda' component={Ayuda} />
+                    <Route path='/chat' component={Chat} />
                 </Switch>
             </Router>
         )

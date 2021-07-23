@@ -56,6 +56,9 @@ export class NavBar extends Component {
                         <a className="nav-link" href="/mis-preguntas">Mis Preguntas</a>
                     </li>
                     <li className="nav-item">
+                        <a className="nav-link" href="/chat">Chat</a>
+                    </li>
+                    <li className="nav-item">
                         <a className="nav-link" href="/sobre-nosotros">Sobre Nosotros</a>
                     </li>
                 </ul>
