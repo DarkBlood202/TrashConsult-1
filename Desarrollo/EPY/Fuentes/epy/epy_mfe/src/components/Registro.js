@@ -122,7 +122,7 @@ export class Registro extends Component {
                     />
                     <div className="row row-cols-2 g-2">
                         <button
-                            className={`col btn btn-sm ${this.state.is_estudiante ? "btn-dark" : "btn-outline-light"}`}
+                            className={`col btn btn-sm ${this.state.is_estudiante ? "btn-light" : "btn-outline-light"}`}
                             type="button"
                             name="is_estudiante"
                             value={this.state.is_estudiante}
@@ -131,7 +131,7 @@ export class Registro extends Component {
                             Soy estudiante
                         </button>
                         <button
-                            className={`col btn btn-sm ${this.state.is_profesor ? "btn-dark" : "btn-outline-light"}`}
+                            className={`col btn btn-sm ${this.state.is_profesor ? "btn-light" : "btn-outline-light"}`}
                             type="button"
                             name="is_profesor"
                             value={this.state.is_profesor}

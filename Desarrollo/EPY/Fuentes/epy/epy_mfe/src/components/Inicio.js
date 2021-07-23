@@ -46,9 +46,9 @@ export class Inicio extends Component {
     render() {
         return (
             <div className={this.state.usuario.id != null && this.state.usuario.username != "" ? "row m-0 vh-10 align-items-center justify-content-center" : "d-none"}>
-                <div className="card bg-light col-md-11 mb-auto p-5 text-center" style={{ margin: '3%', borderRadius: '15px' }} >
+                <div className="card bg-light col-10 mb-5 p-5 text-center" style={{ margin: '3%', borderRadius: '15px' }} >
                     <div className="cards">
-                        <div className={this.state.usuario.is_estudiante ? "" : "d-none"}>
+                        <div className={this.state.usuario.is_estudiante ? "row col-12" : "d-none"}>
                             <PreguntaNueva />
                         </div>
                         {this.state.preguntas.map(pregunta => {
