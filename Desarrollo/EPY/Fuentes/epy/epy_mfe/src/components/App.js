@@ -11,7 +11,6 @@ import Inicio from './Inicio';
 import SobreNosotros from './SobreNosotros';
 import MisPreguntas from './MisPreguntas';
 import Ayuda from './Ayuda';
-import EditarPerfil from './EditarPerfil';
 
 export class App extends Component {
     constructor(props) {
@@ -29,7 +28,6 @@ export class App extends Component {
                     <Route path='/sobre-nosotros' component={SobreNosotros} />
                     <Route path='/mis-preguntas' component={MisPreguntas} />
                     <Route path='/ayuda' component={Ayuda} />
-                    <Route path='/editar-perfil' component={EditarPerfil} />
                 </Switch>
             </Router>
         )
@@ -37,7 +35,6 @@ export class App extends Component {
 }
 
 export default App;
-
 
 ReactDOM.render(<NavBar />, document.getElementById('barra-navegacion'));
 ReactDOM.render(<App />, document.getElementById('app'));

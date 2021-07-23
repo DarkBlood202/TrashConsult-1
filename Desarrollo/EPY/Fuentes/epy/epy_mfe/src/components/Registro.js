@@ -120,9 +120,9 @@ export class Registro extends Component {
                         value={this.state.password}
                         onChange={this.handleInput}
                     />
-                    <div className="row row-cols-2">
+                    <div className="row row-cols-2 g-2">
                         <button
-                            className={`col btn ${this.state.is_estudiante ? "btn-dark" : "btn-light"}`}
+                            className={`col btn btn-sm ${this.state.is_estudiante ? "btn-light" : "btn-outline-light"}`}
                             type="button"
                             name="is_estudiante"
                             value={this.state.is_estudiante}
@@ -131,7 +131,7 @@ export class Registro extends Component {
                             Soy estudiante
                         </button>
                         <button
-                            className={`col btn ${this.state.is_profesor ? "btn-dark" : "btn-light"}`}
+                            className={`col btn btn-sm ${this.state.is_profesor ? "btn-light" : "btn-outline-light"}`}
                             type="button"
                             name="is_profesor"
                             value={this.state.is_profesor}
@@ -140,6 +140,7 @@ export class Registro extends Component {
                             Soy profesor
                         </button>
                     </div>
+                    <br />
                     <input type="submit" className="btn" value="Ingresar" />
                     <a href="/">¿Ya tienes una cuenta?</a>
                 </form>

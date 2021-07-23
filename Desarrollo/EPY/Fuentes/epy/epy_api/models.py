@@ -14,6 +14,9 @@ class Pregunta(models.Model):
     autor = models.ForeignKey(User, related_name='preguntas_publicadas', on_delete=models.CASCADE)
     # marcadores = models.ManyToManyField(User, related_name='preguntas_marcadas', blank=True)
 
+    class Meta:
+        ordering = ['-fecha']
+
 class ArchivoPregunta(models.Model):
     archivo = models.FileField(upload_to='archivos')
     pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE, related_name='archivos')

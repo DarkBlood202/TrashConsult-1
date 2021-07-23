@@ -1,7 +1,174 @@
 import React, { Component } from 'react'
+import axios from 'axios';
+import Cookies from 'js-cookie';
+
+var csrfCookie = Cookies.get('csrftoken');
 
 export class Perfil extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            id: null,
+            username: "",
+            first_name: "",
+            last_name: "",
+            is_estudiante: false,
+            is_profesor: false,
+            tarifa: "0.00",
+            valoracion: 0,
+            editando: false,
+        };
+        this.obtenerDatosUsuario();
+    }
+
+    obtenerDatosUsuario() {
+        axios.get('/api/obtener-usuario')
+            .then(res => {
+                this.setState({
+                    id: res.data.id,
+                    username: res.data.username,
+                    first_name: res.data.first_name,
+                    last_name: res.data.last_name,
+                    is_estudiante: res.data.is_estudiante,
+                    is_profesor: res.data.is_profesor,
+                });
+                this.redireccionLogin();
+                if (this.state.is_estudiante) {
+                    axios.get(`/api/estudiantes/${res.data.id}/`)
+                        .then(res => {
+                            this.setState({
+                                valoracion: res.data.valoracion
+                            });
+                        })
+                }
+                else if (this.state.is_profesor) {
+                    axios.get(`/api/profesores/${res.data.id}/`)
+                        .then(res => {
+                            this.setState({
+                                tarifa: res.data.tarifa
+                            });
+                        })
+                }
+            })
+    }
+
+    redireccionLogin() {
+        if (this.state.id === null && this.state.username === "") {
+            window.location.replace('/');
+        }
+    }
+
+    toggleEditando = () => {
+        if (this.state.editando) {
+            this.setState({
+                editando: false
+            });
+            this.obtenerDatosUsuario();
+        } else {
+            this.setState({
+                editando: true
+            });
+        }
+        // console.log(this.state);
+    }
+
+    handleInput = (event) => {
+        let nam = event.target.name;
+        let val = event.target.value;
+        this.setState({
+            [nam]: val
+        });
+    }
+
+    handleSubmit = (event) => {
+        let profileHeaders = {
+            'X-CSRFTOKEN': csrfCookie,
+            'Content-Type': 'application/json'
+        }
+
+        let userData = {
+            // id: this.state.id,
+            // username: this.state.username,
+            first_name: this.state.first_name,
+            last_name: this.state.last_name
+        };
+
+        let profileData;
+
+        axios.patch(`/api/editar-usuario/${this.state.id}`, userData, {
+            headers: profileHeaders
+        })
+            .then(res => {
+                // console.log(res);
+                this.setState({ editando: false });
+                this.obtenerDatosUsuario();
+            });
+
+        // if (this.state.is_estudiante) {
+        //     profileData = {
+        //         valoracion: this.state.valoracion,
+        //         usuario: userData
+        //     }
+
+
+
+        //     axios.patch(`/api/estudiantes/${this.state.id}/`, profileData, {
+        //         headers: profileHeaders                
+        //     })
+        //         .then(res => {
+        //             console.log(res);
+        //             this.setState({ editando: false });
+        //             this.obtenerDatosUsuario();
+        //         })
+        // }
+        // else if (this.state.is_profesor) {
+        //     profileData = {
+        //         valoracion: this.state.valoracion,
+        //         tarifa: this.state.tarifa.toString(),
+        //         usuario: userData,
+        //     }
+
+        //     axios.patch(`/api/profesores/${this.state.id}/`, profileData, {
+        //         headers: {
+        //             'X-CSRFTOKEN': csrfCookie,
+        //             'Content-Type': 'application/json'
+        //         }
+        //     })
+        //         .then(res => {
+        //             console.log(res);
+        //             this.setState({ editando: false });
+        //             this.obtenerDatosUsuario();
+        //         })
+        // }
+
+    }
+
     render() {
+        let tarifaServicio = "";
+        if (this.state.is_profesor) {
+            tarifaServicio = (
+                <div className="row">
+                    <div className="col-sm-3">
+                        <h6 className="mb-0">Tarifa de servicio</h6>
+                    </div>
+
+                    <div className="col-sm-9 text-secondary">
+                        <div className={this.state.editando ? "d-none" : ""}>
+                            S/. {this.state.tarifa}
+                        </div>
+                        <input
+                            className={this.state.editando ? "form-control" : "d-none"}
+                            type="number"
+                            step="0.01"
+                            // placeholder={this.state.tarifa}
+                            name="tarifa"
+                            value={this.state.tarifa}
+                            onInput={this.handleInput}
+                        />
+                    </div>
+                </div>
+            )
+        }
         return (
             <div className="row vh-100 align-items-center">
                 <div className="col-md-4 mb-auto" style={{ marginTop: '3%' }}>
@@ -12,8 +179,9 @@ export class Perfil extends Component {
                                 <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" className="rounded-circle" width="150" />
 
                                 <div className="mt-3">
-                                    <h4>Jonh Doe</h4>
-                                    <p className="text-secondary mb-1">(Profesor/Alumno)</p>
+                                    <h4>{`${this.state.first_name} ${this.state.last_name}`}</h4>
+                                    <p className="text-secondary mb-1">{this.state.is_estudiante ? "Estudiante" : ""}</p>
+                                    <p className="text-secondary mb-1">{this.state.is_profesor ? "Profesor" : ""}</p>
                                 </div>
                             </div>
                         </div>
@@ -28,55 +196,95 @@ export class Perfil extends Component {
                     {/*<!--TARJETA CON LOS DATOS NOMBRE, CORREO,ETC-->*/}
                     <div className="card mb-3">
                         <div className="card-body">
+                            {/* NOMBRES */}
                             <div className="row">
                                 <div className="col-sm-3">
-                                    <h6 className="mb-0">Nombres y apellidos</h6>
+                                    <h6 className="mb-0">Nombres</h6>
                                 </div>
                                 <div className="col-sm-9 text-secondary">
-                                    John doe
+                                    <div className={this.state.editando ? "d-none" : ""}>
+                                        {`${this.state.first_name}`}
+                                    </div>
+                                    <input
+                                        className={this.state.editando ? "form-control" : "d-none"}
+                                        type="text"
+                                        name="first_name"
+                                        value={this.state.first_name}
+                                        // placeholder={this.state.first_name}
+                                        onInput={this.handleInput}
+                                    // onChange={this.handleInput}
+                                    />
                                 </div>
                             </div>
                             <hr />
 
-                            {/*<!--CORREO-->*/}
+                            {/* APELLIDOS */}
+                            <div className="row">
+                                <div className="col-sm-3">
+                                    <h6 className="mb-0">Apellidos</h6>
+                                </div>
+                                <div className="col-sm-9 text-secondary">
+                                    <div className={this.state.editando ? "d-none" : ""}>
+                                        {`${this.state.last_name}`}
+                                    </div>
+                                    <input
+                                        className={this.state.editando ? "form-control" : "d-none"}
+                                        type="text"
+                                        name="last_name"
+                                        value={this.state.last_name}
+                                        // placeholder={this.state.last_name}
+                                        onInput={this.handleInput}
+                                    // onChange={this.handleInput}
+                                    />
+                                </div>
+                            </div>
+                            <hr />
+
+                            {/*<!--NOMBRE DE USUARIO-->*/}
                             <div className="row">
 
                                 <div className="col-sm-3">
-                                    <h6 className="mb-0">Correo</h6>
+                                    <h6 className="mb-0">Nombre de usuario</h6>
                                 </div>
 
                                 <div className="col-sm-9 text-secondary">
-                                    <a href="mailto:{{correo}}?">john@doe.com</a>
+                                    <a
+                                        href="#"
+                                    // className={this.state.editando ? "d-none" : ""}
+                                    >
+                                        {this.state.username}
+                                    </a>
+                                    {/* <input
+                                        className={this.state.editando ? "form-control" : "d-none"}
+                                        type="text"
+                                        name="username"
+                                        value={this.state.username}
+                                        // placeholder={this.state.username}
+                                        onInput={this.handleInput}
+                                    // onChange={this.handleInput}
+                                    /> */}
                                 </div>
 
                             </div>
 
                             <hr />
 
-                            {/*<!--TELEFONO FIJO-->*/}
+                            {/*<!--VALORACION-->*/}
                             <div className="row">
                                 <div className="col-sm-3">
-                                    <h6 className="mb-0">Télefono fijo</h6>
+                                    <h6 className="mb-0">Valoración</h6>
                                 </div>
                                 <div className="col-sm-9 text-secondary">
-                                    123-4567
+                                    {this.state.valoracion} / 10
                                 </div>
                             </div>
 
                             <hr />
 
-                            {/*<!--TELEFONO MOVIL-->*/}
-                            <div className="row">
-                                <div className="col-sm-3">
-                                    <h6 className="mb-0">Télefono Móvil</h6>
-                                </div>
+                            {/*<!-- TARIFA: PROFESOR -->*/}
+                            {tarifaServicio}
 
-                                <div className="col-sm-9 text-secondary">
-                                    987-654-321
-                                </div>
-                            </div>
-
-                            <hr />
+                            <hr className={this.state.is_profesor ? "" : "d-none"} />
 
                             <div className="row">
                                 <div className="col-sm-3">
@@ -226,19 +434,37 @@ export class Perfil extends Component {
                             </div>
                             <hr />
 
-                            <div className="row">
+                            <div className={this.state.editando ? "d-none" : "row"}>
                                 <div className="col-sm-12">
-
-                                    <a className="btn btn-info" href="/EditarPerfil">Editar</a>
-
+                                    <button
+                                        className="btn btn-info"
+                                        onClick={this.toggleEditando}
+                                    >
+                                        Editar
+                                    </button>
                                 </div>
                             </div>
-
+                            <div className={this.state.editando ? "row" : "d-none"}>
+                                <div className="col-sm-4 text-secondary">
+                                    <button
+                                        className="btn btn-primary px-4"
+                                        onClick={this.handleSubmit}
+                                    >
+                                        Confirmar
+                                    </button>
+                                </div>
+                                <div className="col-sm-4"></div>
+                                <div className="col-sm-4 text-secondary">
+                                    <button
+                                        className="btn btn-danger px-4"
+                                        onClick={this.toggleEditando}
+                                    >
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-
                     </div>
-
-
                 </div>
             </div>
         )
