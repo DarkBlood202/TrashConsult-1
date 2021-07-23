@@ -84,7 +84,7 @@ export class Registro extends Component {
 
     render() {
         return (
-            <div className="login-box">
+            <div className="login-box" style={{ height: '580px', top: '65%' }}>
                 <img src="/static/epy_mfe/logo1.png" className="App-logo" alt="logo" />
                 <h1>Registro</h1>
                 <form onSubmit={this.handleSubmit}>
