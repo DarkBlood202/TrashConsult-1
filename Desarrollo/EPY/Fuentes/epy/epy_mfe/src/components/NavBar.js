@@ -52,8 +52,11 @@ export class NavBar extends Component {
                     <li className="nav-item">
                         <a className="nav-link" href="/inicio">Inicio</a>
                     </li>
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <a className="nav-link" href="/mis-preguntas">Mis Preguntas</a>
+                    </li> */}
+                    <li className="nav-item">
+                        <a className="nav-link" href="/busqueda">Búsqueda</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="/chat">Chat</a>

@@ -7,7 +7,7 @@ export class Pregunta extends Component {
     render() {
         const { pregunta } = this.props;
         return (
-            <li className="cards__item row col-12">
+            <li className={this.props.cardMode ? "cards__item" : "cards__item row col-12"}>
                 <div className="cardPregunta ">
                     <div className="card__content">
                         <div className="card__title">{pregunta.titulo} {pregunta.editada ? "(editada)" : ""}</div>

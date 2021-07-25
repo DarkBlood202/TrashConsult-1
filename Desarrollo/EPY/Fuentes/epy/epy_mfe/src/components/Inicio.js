@@ -53,7 +53,11 @@ export class Inicio extends Component {
                         </div>
                         {this.state.preguntas.map(pregunta => {
                             return (
-                                <Pregunta key={pregunta.url} pregunta={pregunta} />
+                                <Pregunta
+                                    key={pregunta.url}
+                                    pregunta={pregunta}
+                                    cardMode={false}
+                                />
                             )
                         })}
                     </div>

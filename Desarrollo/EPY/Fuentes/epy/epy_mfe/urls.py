@@ -11,4 +11,5 @@ urlpatterns = [
     path('ayuda', views.index),
     path('editar-perfil', views.index),
     path('chat', views.index),
+    path('busqueda', views.index)
 ]
