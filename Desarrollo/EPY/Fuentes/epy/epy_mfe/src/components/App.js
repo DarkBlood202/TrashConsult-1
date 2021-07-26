@@ -12,6 +12,7 @@ import SobreNosotros from './SobreNosotros';
 import MisPreguntas from './MisPreguntas';
 import Ayuda from './Ayuda';
 import Chat from './Chat';
+import Busqueda from './Busqueda';
 
 export class App extends Component {
     constructor(props) {
@@ -30,6 +31,7 @@ export class App extends Component {
                     <Route path='/mis-preguntas' component={MisPreguntas} />
                     <Route path='/ayuda' component={Ayuda} />
                     <Route path='/chat' component={Chat} />
+                    <Route path='/busqueda' component={Busqueda} />
                 </Switch>
             </Router>
         )
