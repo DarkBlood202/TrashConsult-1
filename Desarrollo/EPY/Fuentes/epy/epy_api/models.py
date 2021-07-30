@@ -30,7 +30,15 @@ class Profesor(models.Model):
     tarifa = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     valoracion = models.FloatField(default=0)
 
+class Sesion(models.Model):
+    id_key = models.CharField(max_length=16, unique=True)
+    participantes = models.ManyToManyField(User, related_name='participantes', blank=True)
+    
+    def __str__(self):
+        return f"ID: {self.id_key}"
+
 class Mensaje(models.Model):
     autor = models.ForeignKey(User, related_name='mensaje_enviado', on_delete=models.CASCADE)
+    sesion = models.ForeignKey(Sesion, related_name='mensaje', on_delete=models.CASCADE)
     contenido = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)

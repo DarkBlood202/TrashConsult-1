@@ -54,9 +54,10 @@ export class Inicio extends Component {
                         {this.state.preguntas.map(pregunta => {
                             return (
                                 <Pregunta
-                                    key={pregunta.url}
+                                    key={pregunta.id}
                                     pregunta={pregunta}
                                     cardMode={false}
+                                    marcable={this.state.usuario.is_profesor}
                                 />
                             )
                         })}

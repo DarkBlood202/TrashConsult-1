@@ -16,10 +16,21 @@ usuario_data_detail = views.UsuarioDataUpdateViewSet.as_view({
 })
 
 
+
+
 urlpatterns = [
     path('', include(router.urls)),
 
     path('registro/', views.UsuarioCreate.as_view()),
     path('obtener-usuario/', views.UsuarioActual.as_view()),
-    path('editar-usuario/<int:pk>', usuario_data_detail)
+    path('editar-usuario/<int:pk>', usuario_data_detail),
+
+    path('crear-sesion/', views.SesionViewSet.as_view({
+        'get': 'list',
+        'post': 'create'
+    })),
+    path('crear-mensaje/', views.MensajeViewSet.as_view({
+        'get': 'list',
+        'post': 'create'
+    }))
 ]

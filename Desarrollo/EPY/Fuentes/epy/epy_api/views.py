@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.parsers import MultiPartParser
 
-from .models import Pregunta, User, Estudiante, Profesor
+from .models import Pregunta, User, Estudiante, Profesor, Sesion, Mensaje
 from .serializers import *
 from .permissions import IsAuthorOrReadOnly, IsOwnerProfileOrReadOnly as IsOwnerUserOrReadOnly, IsSameUserOrReadOnly
 
@@ -76,3 +76,16 @@ class UsuarioDataUpdateViewSet(viewsets.ModelViewSet):
         IsSameUserOrReadOnly
     ]
 
+class SesionViewSet(viewsets.ModelViewSet):
+    queryset = Sesion.objects.all()
+    serializer_class = SesionSerializer
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
+
+class MensajeViewSet(viewsets.ModelViewSet):
+    queryset = Mensaje.objects.all()
+    serializer_class = MensajeSerializer
+    permission_classes = [
+        permissions.IsAuthenticated
+    ]
