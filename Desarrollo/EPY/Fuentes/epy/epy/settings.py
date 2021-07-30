@@ -40,9 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'channels',
 
     'epy_api',
     'epy_mfe',
+    'epy_mc',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +76,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'epy.wsgi.application'
+ASGI_APPLICATION = 'epy.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379)],
+        }
+    }
+}
 
 
 # Database

@@ -29,3 +29,8 @@ class Profesor(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     tarifa = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     valoracion = models.FloatField(default=0)
+
+class Mensaje(models.Model):
+    autor = models.ForeignKey(User, related_name='mensaje_enviado', on_delete=models.CASCADE)
+    contenido = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
