@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Pregunta from './Pregunta';
-import PreguntaNueva from './PreguntaNueva';
+import Pregunta from './Preguntas/Pregunta';
+import PreguntaNueva from './Preguntas/PreguntaNueva';
 
 export class Inicio extends Component {
     constructor(props) {
@@ -54,9 +54,10 @@ export class Inicio extends Component {
                         {this.state.preguntas.map(pregunta => {
                             return (
                                 <Pregunta
-                                    key={pregunta.url}
+                                    key={pregunta.id}
                                     pregunta={pregunta}
                                     cardMode={false}
+                                    marcable={this.state.usuario.is_profesor}
                                 />
                             )
                         })}

@@ -21,6 +21,7 @@ urlpatterns = [
 
     path('', include('epy_mfe.urls')),
     path('api/', include('epy_api.urls')),
+    path('epychat/', include('epy_mc.urls'))
 ]
 
 # Login desde Vista de API

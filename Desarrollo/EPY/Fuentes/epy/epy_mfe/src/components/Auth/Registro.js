@@ -42,6 +42,11 @@ export class Registro extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
+        if (!this.state.is_estudiante && !this.state.is_profesor){
+            console.log("Espera");
+            return;
+        }
+
         var bodyFormData = new FormData();
 
         bodyFormData.append('first_name', this.state.first_name);
@@ -84,7 +89,7 @@ export class Registro extends Component {
 
     render() {
         return (
-            <div className="login-box" style={{ height: '580px', top: '65%' }}>
+            <div className="login-box" style={{ height: '590px', top: '65%'}}>
                 <img src="/static/epy_mfe/logo1.png" className="App-logo" alt="logo" />
                 <h1>Registro</h1>
                 <form onSubmit={this.handleSubmit}>
@@ -95,6 +100,7 @@ export class Registro extends Component {
                         placeholder="Ingrese Nombres"
                         value={this.state.first_name}
                         onInput={this.handleInput}
+                        required
                     />
                     <label htmlFor="last_name">Apellidos</label>
                     <input
@@ -103,6 +109,7 @@ export class Registro extends Component {
                         placeholder="Ingrese Apellidos"
                         value={this.state.last_name}
                         onInput={this.handleInput}
+                        required
                     />
                     <label htmlFor="username">Nombre de usuario</label>
                     <input
@@ -111,6 +118,7 @@ export class Registro extends Component {
                         placeholder="Ingrese Nombre de Usuario"
                         value={this.state.username}
                         onInput={this.handleInput}
+                        required
                     />
                     <label htmlFor="password">Constraseña</label>
                     <input
@@ -119,6 +127,7 @@ export class Registro extends Component {
                         placeholder="Ingrese Contraseña"
                         value={this.state.password}
                         onChange={this.handleInput}
+                        required
                     />
                     <div className="row row-cols-2 g-2">
                         <button

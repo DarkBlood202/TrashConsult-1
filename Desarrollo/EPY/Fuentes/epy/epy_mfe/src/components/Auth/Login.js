@@ -92,6 +92,7 @@ export class Login extends Component {
                         placeholder="Ingrese Nombre de Usuario"
                         value={this.state.username}
                         onInput={this.handleInput}
+                        required
                     />
                     {/* PASSWORD INPUT */}
                     <label htmlFor="password">Constraseña</label>
@@ -101,6 +102,7 @@ export class Login extends Component {
                         placeholder="Ingrese Contraseña"
                         value={this.state.password}
                         onChange={this.handleInput}
+                        required
                     />
                     <input type="submit" className="btn" value="Ingresar" />
                     <a href="/registro">¿No tienes una cuenta?</a>

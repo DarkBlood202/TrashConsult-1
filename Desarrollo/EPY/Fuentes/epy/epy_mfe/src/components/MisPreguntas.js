@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import Pregunta from './Pregunta';
+import Pregunta from './Preguntas/Pregunta';
 
 export class MisPreguntas extends Component {
     render() {

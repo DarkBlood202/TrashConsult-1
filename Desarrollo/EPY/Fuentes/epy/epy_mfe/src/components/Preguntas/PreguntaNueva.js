@@ -1,7 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { Component } from 'react'
-import CsrfToken from './CsrfToken';
 
 var csrfCookie = Cookies.get('csrftoken')
 
@@ -24,7 +23,7 @@ export class PreguntaNueva extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        // alert(this.state.titulo + this.state.descripcion);
+
         axios.post('/api/preguntas/', this.state, {
             headers: {
                 'X-CSRFTOKEN': csrfCookie,
