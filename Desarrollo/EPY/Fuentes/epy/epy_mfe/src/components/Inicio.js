@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Pregunta from './Pregunta';
-import PreguntaNueva from './PreguntaNueva';
+import Pregunta from './Preguntas/Pregunta';
+import PreguntaNueva from './Preguntas/PreguntaNueva';
 
 export class Inicio extends Component {
     constructor(props) {

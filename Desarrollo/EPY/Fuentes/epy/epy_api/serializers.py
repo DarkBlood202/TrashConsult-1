@@ -72,7 +72,7 @@ class ProfesorSerializer(serializers.ModelSerializer):
 
 class PreguntaSerializer(serializers.ModelSerializer):
     # autor = serializers.ReadOnlyField(source='autor.username')
-    autor = UsuarioSerializer()
+    autor = UsuarioSerializer(read_only=True)
     # marcadores = MarcadorSerializer(many=True)
 
     class Meta:
@@ -83,6 +83,20 @@ class SesionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sesion
         fields = '__all__'
+
+    def create(self, validated_data):
+        participantes = validated_data.pop('participantes')
+
+        instance = Sesion.objects.create(**validated_data)
+        for participante in participantes:
+            instance.participantes.add(participante)
+
+        return instance
+
+    def to_representation(self, instance):
+        representation = super(SesionSerializer, self).to_representation(instance)
+        representation['participantes'] = UsuarioSerializer(instance.participantes.all(),many=True).data
+        return representation
 
 class MensajeSerializer(serializers.ModelSerializer):
     class Meta:

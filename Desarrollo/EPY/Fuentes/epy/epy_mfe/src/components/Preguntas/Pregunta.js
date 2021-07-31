@@ -37,11 +37,13 @@ export class Pregunta extends Component {
         let sesion = arr.join('').slice(0,16);
 
         let userArr = [];
-        userArr.push(this.props.pregunta.autor.id)
-        userArr.push(this.state.usuario.id)
+
+        userArr.push(this.props.pregunta.autor.id);
+        userArr.push(this.state.usuario.id);
 
         axios.post('api/crear-sesion/', {
             'id_key': sesion,
+            'asunto': this.props.pregunta.titulo,
             'participantes': userArr
         },
         {

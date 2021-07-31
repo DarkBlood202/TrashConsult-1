@@ -33,9 +33,10 @@ class Profesor(models.Model):
 class Sesion(models.Model):
     id_key = models.CharField(max_length=16, unique=True)
     participantes = models.ManyToManyField(User, related_name='participantes', blank=True)
+    asunto = models.CharField(max_length=64, default="(Sin título)")
     
     def __str__(self):
-        return f"ID: {self.id_key}"
+        return f"ID: {self.id_key} - {self.asunto}"
 
 class Mensaje(models.Model):
     autor = models.ForeignKey(User, related_name='mensaje_enviado', on_delete=models.CASCADE)

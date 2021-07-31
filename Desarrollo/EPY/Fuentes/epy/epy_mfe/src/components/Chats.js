@@ -1,8 +1,51 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import axios from 'axios';
 
 import PersonTarget from './Chat/PersonTarget';
 
 export class Chats extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            sesiones: [],
+            usuario: {},
+        };
+        this.obtenerUsuario();
+        this.obtenerSesiones();
+    }
+
+    obtenerUsuario(){
+        axios.get('api/obtener-usuario/')
+            .then(res => {
+                this.setState({
+                    usuario: res.data
+                });
+            });
+    }
+
+    obtenerDataUsuario(id){
+        axios.get(`api/usuarios/${id}`)
+            .then(res => {
+                return res.data;
+            });
+    }
+
+    obtenerSesiones(){
+        axios.get('api/crear-sesion/')
+            .then(res => {
+                let totalSesiones = [];
+                totalSesiones = res.data;
+                totalSesiones.filter(sesion => {
+                    return sesion.participantes.includes(this.state.usuario.id)
+                });
+
+                this.setState({
+                    sesiones: totalSesiones,
+                });
+                // console.log(this.state.sesiones);
+            });
+    }
+
     render() {
         return (
             <div>
@@ -16,7 +59,7 @@ export class Chats extends Component {
                                 <div className="row no-gutters">
                                     <div>
                                         <div className="users-container">
-                                            <div className="chat-search-box">
+                                            {/* <div className="chat-search-box">
                                                 <div className="input-group">
                                                     <input className="form-control" placeholder="Buscar" />
                                                     <div className="input-group-btn">
@@ -25,33 +68,29 @@ export class Chats extends Component {
                                                         </button>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <ul className="users">
+                                            </div> */}
+                                            <ul className="users mx-4">
+                                                {this.state.sesiones.map(sesion => {
+                                                    return (
+                                                        <PersonTarget
+                                                            key={sesion.id}
+                                                            id={sesion.id}
+                                                            name={sesion.asunto}
+                                                            time={sesion.participantes.map(p => `${p.first_name} ${p.last_name}`).join(' y ')}
+                                                            sessionKey={sesion.id_key}
+                                                            img="https://www.bootdey.com/img/Content/avatar/avatar3.png"
+                                                            status="status busy"
+                                                        />
+                                                    )
+                                                })}
                                                 <PersonTarget
-                                                    name="Steve Bangalter" time="15/02/2019"
-                                                    img="https://www.bootdey.com/img/Content/avatar/avatar3.png"
-                                                    status="status busy"
-                                                    dataperson="person1" />
-                                                <PersonTarget name="Steve Bangalter" time="15/02/2019"
+                                                    name="Este chat está desbloqueado"
+                                                    time="admin"
+                                                    sessionKey="0000000000000000"
                                                     img="https://www.bootdey.com/img/Content/avatar/avatar1.png"
-                                                    status="status offline"
-                                                    dataperson="person2" />
-                                                <PersonTarget name="Steve Bangalter" time="15/02/2019"
-                                                    img="https://www.bootdey.com/img/Content/avatar/avatar2.png"
-                                                    status="status away"
-                                                    dataperson="person3" />
-                                                <PersonTarget name="Steve Bangalter" time="15/02/2019"
-                                                    img="https://www.bootdey.com/img/Content/avatar/avatar3.png"
                                                     status="status busy"
-                                                    dataperson="person4" />
-                                                <PersonTarget name="Steve Bangalter" time="15/02/2019"
-                                                    img="https://www.bootdey.com/img/Content/avatar/avatar4.png"
-                                                    status="status offline"
-                                                    dataperson="person5" />
-                                                <PersonTarget name="Steve Bangalter" time="15/02/2019"
-                                                    img="https://www.bootdey.com/img/Content/avatar/avatar5.png"
-                                                    status="status away"
-                                                    dataperson="person6" />
+                                                    prueba={true}
+                                                />
                                             </ul>
                                         </div>
                                     </div>

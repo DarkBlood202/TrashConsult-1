@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // Components
 import NavBar from './NavBar';
-import Registro from './Registro';
-import Login from './Login';
+import Registro from './Auth/Registro';
+import Login from './Auth/Login';
 import Perfil from './Perfil';
 import Inicio from './Inicio';
 import SobreNosotros from './SobreNosotros';

@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,13 +7,43 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Room</title>
+    <title>Chat</title>
+    <!-- CSS: Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'epy_mfe/index.css' %}">
+    <link rel="stylesheet" href="{% static 'epy_mfe/chat.css' %}">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <textarea id="chat-log" cols="100" rows="28"></textarea><br>
+    <!-- <textarea id="chat-log" cols="100" rows="28"></textarea><br>
     <input type="text" id="chat-message-input" size="100"><br>
-    <button id="chat-message-submit">Send</button>
+    <button id="chat-message-submit">Send</button> -->
+
+    <div class="card m-4">
+        <div class="selected-user">
+            <span class="name">Chat</span>
+        </div>
+        <div class="chat-container">
+            <ul id="chat-log" class="chat-box chatContainerScroll" style="min-height: 350px;">
+                <li class="text-center">Has iniciado una sesión.</li>
+            </ul>
+            <hr />
+            <div class="bg-light">
+                <div class="input-group">
+                    <input id="chat-message-input" type="text" placeholder="Escribir mensaje"
+                        class="form-control rounded-0 border-0 py-2 bg-light" />
+                    <div class="input-group-append">
+                        <button id="chat-message-submit" type="button" class="btn btn-link">
+                            <i class="fa fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {{ room_name | json_script:"room-name" }}
 
     <script>
@@ -26,7 +58,7 @@
 
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.message + '\n');
+            document.querySelector('#chat-log').innerHTML += ('<li>' + data.message + '</li>\n');
         };
 
         chatSocket.onclose = function (e) {
@@ -53,6 +85,15 @@
             messageInputDom.value = "";
         }
     </script>
+
+    <!-- Scripts: PopperJS, Bootstrap 5 -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
