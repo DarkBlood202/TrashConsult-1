@@ -18,11 +18,11 @@ class PreguntaAdmin(admin.ModelAdmin):
 
 @admin.register(Estudiante)
 class EstudianteAdmin(admin.ModelAdmin):
-    list_display = ('usuario', 'valoracion')
+    list_display = ('usuario',)
 
 @admin.register(Profesor)
 class ProfesorAdmin(admin.ModelAdmin):
-    list_display = ('usuario', 'valoracion')
+    list_display = ('usuario',)
 
 @admin.register(Sesion)
 class SesionAdmin(admin.ModelAdmin):

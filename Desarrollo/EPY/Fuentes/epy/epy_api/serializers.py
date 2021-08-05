@@ -24,7 +24,7 @@ class TipoUsuarioSerializer(serializers.ModelSerializer):
     username = serializers.ReadOnlyField()
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name']
+        fields = ['id', 'username', 'first_name', 'last_name', 'valoracion', 'tarifa']
 
 class UsuarioCreateSerializer(serializers.ModelSerializer):
     class Meta:
