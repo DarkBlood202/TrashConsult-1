@@ -12,12 +12,14 @@ export class PersonTarget extends Component {
     }
 
     aceptarChat = (event) => {
+        window.location.replace(`/chat/${this.props.sessionKey}`);
+
         // console.log("Has aceptado el chat!");
-        if(this.props.prueba){
-            window.location.replace(`/epychat/${this.props.sessionKey}`)
-        } else {
-            window.location.replace('https://mpago.la/25hXPig');
-        }
+        // if(this.props.prueba){
+        //     window.location.replace(`/epychat/${this.props.sessionKey}`)
+        // } else {
+        //     window.location.replace('https://mpago.la/25hXPig');
+        // }
     }
 
     rechazarChat = (event) => {
@@ -25,7 +27,7 @@ export class PersonTarget extends Component {
         if(this.props.prueba){
             return
         } else {
-            axios.delete(`api/crear-sesion/${this.props.id}`,{
+            axios.delete(`/api/crear-sesion/${this.props.id}`,{
                 headers: {
                     'X-CSRFTOKEN': csrfCookie,
                 }

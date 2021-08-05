@@ -20,6 +20,11 @@ class UsuarioSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         fields = ['id', 'username', 'first_name', 'last_name', 'is_estudiante', 'is_profesor']
 
+class UsuarioMiniSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'first_name', 'last_name']
+
 class TipoUsuarioSerializer(serializers.ModelSerializer):
     username = serializers.ReadOnlyField()
     class Meta:
@@ -98,7 +103,18 @@ class SesionSerializer(serializers.ModelSerializer):
         representation['participantes'] = UsuarioSerializer(instance.participantes.all(),many=True).data
         return representation
 
+class SesionMiniSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sesion
+        fields = ['id', 'id_key', 'asunto']
+
 class MensajeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mensaje
         fields = '__all__'
+
+    def to_representation(self, instance):
+        representation = super(MensajeSerializer, self).to_representation(instance)
+        representation['autor'] = UsuarioMiniSerializer(instance.autor).data
+        representation['sesion'] = SesionMiniSerializer(instance.sesion).data
+        return representation

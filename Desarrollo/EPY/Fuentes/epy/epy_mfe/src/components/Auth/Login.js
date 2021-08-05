@@ -95,7 +95,7 @@ export class Login extends Component {
                         required
                     />
                     {/* PASSWORD INPUT */}
-                    <label htmlFor="password">Constraseña</label>
+                    <label htmlFor="password">Contraseña</label>
                     <input
                         type="password"
                         name="password"

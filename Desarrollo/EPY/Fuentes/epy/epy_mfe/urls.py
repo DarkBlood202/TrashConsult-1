@@ -10,6 +10,7 @@ urlpatterns = [
     path('mis-preguntas', views.index),
     path('ayuda', views.index),
     path('editar-perfil', views.index),
-    path('chat', views.index),
+    path('chats', views.index),
+    path('chat/<str:id_key>', views.index),
     path('busqueda', views.index)
 ]

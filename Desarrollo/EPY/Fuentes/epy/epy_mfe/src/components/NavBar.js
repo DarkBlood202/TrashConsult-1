@@ -59,7 +59,7 @@ export class NavBar extends Component {
                         <a className="nav-link" href="/busqueda">Búsqueda</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="/chat">Chat</a>
+                        <a className="nav-link" href="/chats">Chat</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="/sobre-nosotros">Sobre Nosotros</a>

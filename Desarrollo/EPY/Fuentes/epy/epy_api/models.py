@@ -46,3 +46,6 @@ class Mensaje(models.Model):
     sesion = models.ForeignKey(Sesion, related_name='mensaje', on_delete=models.CASCADE)
     contenido = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['timestamp']
