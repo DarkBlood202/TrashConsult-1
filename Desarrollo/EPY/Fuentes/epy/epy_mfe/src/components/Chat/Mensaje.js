@@ -5,21 +5,35 @@ export class Mensaje extends Component {
         super(props);
     }
     render() {
-        // let timestamp = new Date().toLocaleTimeString();
+        let timestamp = new Date(this.props.timestamp).toLocaleTimeString();
 
-        return (
-            <li className={this.props.propio ? "chat-right" : "chat-left"}>
-                {/* <div className={this.props.propio ? "chat-hour" : "d-none"}>{timestamp}</div> */}
-                {/* <div className="chat-avatar">
-                    <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin" />
-                    <div className="chat-name">{this.props.usuario.first_name}</div>
-                </div> */}
-                <div className="chat-text">
-                    {this.props.mensaje}
-                </div>
-                {/* <div className={this.props.propio ? "d-none" : "chat-hour"}>{timestamp}</div> */}
-            </li>
-        )
+        let bubble;
+
+        if(this.props.propio){
+            bubble = (
+                <li className="chat-right">
+                    <div className="chat-hour">{timestamp}</div>
+                    <div className="chat-text">{this.props.mensaje}</div>
+                    <div className="chat-avatar">
+                        <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin" />
+                        <div className="chat-name">Tú</div>
+                    </div>
+                </li>
+            );
+        } else {
+            bubble = (
+                <li className="chat-left">
+                    <div className="chat-avatar">
+                        <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin" />
+                        <div className="chat-name">{this.props.autor.first_name}</div>
+                    </div>
+                    <div className="chat-text">{this.props.mensaje}</div>
+                    <div className="chat-hour">{timestamp}</div>
+                </li>
+            );
+        }
+
+        return bubble;
     }
 }
 

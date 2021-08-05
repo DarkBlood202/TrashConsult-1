@@ -16,6 +16,7 @@ export class Perfil extends Component {
             is_profesor: false,
             tarifa: "0.00",
             valoracion: 0,
+
             editando: false,
         };
         this.obtenerDatosUsuario();
@@ -33,22 +34,15 @@ export class Perfil extends Component {
                     is_profesor: res.data.is_profesor,
                 });
                 this.redireccionLogin();
-                if (this.state.is_estudiante) {
-                    axios.get(`/api/estudiantes/${res.data.id}/`)
-                        .then(res => {
-                            this.setState({
-                                valoracion: res.data.valoracion
-                            });
-                        })
-                }
-                else if (this.state.is_profesor) {
-                    axios.get(`/api/profesores/${res.data.id}/`)
-                        .then(res => {
-                            this.setState({
-                                tarifa: res.data.tarifa
-                            });
-                        })
-                }
+
+                axios.get(`/api/editar-usuario/${res.data.id}`)
+                    .then(res => {
+                        this.setState({
+                            tarifa: res.data.tarifa,
+                            valoracion: res.data.valoracion
+                        });
+                    });
+
             })
     }
 
@@ -90,10 +84,10 @@ export class Perfil extends Component {
             // id: this.state.id,
             // username: this.state.username,
             first_name: this.state.first_name,
-            last_name: this.state.last_name
-        };
+            last_name: this.state.last_name,
+            tarifa: this.state.tarifa,
 
-        let profileData;
+        };
 
         axios.patch(`/api/editar-usuario/${this.state.id}`, userData, {
             headers: profileHeaders
@@ -103,43 +97,6 @@ export class Perfil extends Component {
                 this.setState({ editando: false });
                 this.obtenerDatosUsuario();
             });
-
-        // if (this.state.is_estudiante) {
-        //     profileData = {
-        //         valoracion: this.state.valoracion,
-        //         usuario: userData
-        //     }
-
-
-
-        //     axios.patch(`/api/estudiantes/${this.state.id}/`, profileData, {
-        //         headers: profileHeaders                
-        //     })
-        //         .then(res => {
-        //             console.log(res);
-        //             this.setState({ editando: false });
-        //             this.obtenerDatosUsuario();
-        //         })
-        // }
-        // else if (this.state.is_profesor) {
-        //     profileData = {
-        //         valoracion: this.state.valoracion,
-        //         tarifa: this.state.tarifa.toString(),
-        //         usuario: userData,
-        //     }
-
-        //     axios.patch(`/api/profesores/${this.state.id}/`, profileData, {
-        //         headers: {
-        //             'X-CSRFTOKEN': csrfCookie,
-        //             'Content-Type': 'application/json'
-        //         }
-        //     })
-        //         .then(res => {
-        //             console.log(res);
-        //             this.setState({ editando: false });
-        //             this.obtenerDatosUsuario();
-        //         })
-        // }
 
     }
 
@@ -249,10 +206,9 @@ export class Perfil extends Component {
 
                                 <div className="col-sm-9 text-secondary">
                                     <a
-                                        href="#"
-                                    // className={this.state.editando ? "d-none" : ""}
+                                     className="text-primary"
                                     >
-                                        {this.state.username}
+                                        @{this.state.username}
                                     </a>
                                     {/* <input
                                         className={this.state.editando ? "form-control" : "d-none"}
@@ -275,7 +231,7 @@ export class Perfil extends Component {
                                     <h6 className="mb-0">Valoración</h6>
                                 </div>
                                 <div className="col-sm-9 text-secondary">
-                                    {this.state.valoracion} / 10
+                                    {this.state.valoracion} / 10 <i className="fas fa-star"></i>
                                 </div>
                             </div>
 

@@ -19,12 +19,35 @@ export class Busqueda extends Component {
     }
 
     obtenerUsuarios() {
-        axios.get('/api/usuarios')
+        axios.get('/api/estudiantes')
             .then(res => {
                 this.setState({
-                    origUsuarios: res.data,
-                    usuarios: res.data
+                    origUsuarios: res.data
                 });
+
+                let estArr = this.state.origUsuarios;
+                estArr.map(u => {
+                    u.usuario.is_estudiante = true;
+                    u.usuario.is_profesor = false;
+                })
+                
+                axios.get('/api/profesores')
+                    .then(res => {
+                        this.setState({
+                            origUsuarios: res.data
+                        });
+
+                        let profArr = this.state.origUsuarios;
+                        profArr.map(u => {
+                            u.usuario.is_estudiante = false;
+                            u.usuario.is_profesor = true;
+                        })
+
+                        this.setState({
+                            origUsuarios: estArr.concat(profArr),
+                            usuarios: estArr.concat(profArr),
+                        })
+                    })
             })
     }
 
@@ -48,7 +71,7 @@ export class Busqueda extends Component {
 
         this.setState({
             usuarios: oldUsers.filter(user => {
-                return user.username.toLowerCase().includes(this.state.query.toLowerCase())
+                return user.usuario.username.toLowerCase().includes(this.state.query.toLowerCase())
             }),
             preguntas: oldPregs.filter(preg => {
                 return preg.titulo.toLowerCase().includes(this.state.query.toLowerCase())
@@ -77,8 +100,8 @@ export class Busqueda extends Component {
                         {this.state.usuarios.map(usuario => {
                             return (
                                 <CardUsuario
-                                    key={usuario.id}
-                                    usuario={usuario}
+                                    key={usuario.usuario.id}
+                                    usuario={usuario.usuario}
                                 />
                             )
                         })}
@@ -92,7 +115,7 @@ export class Busqueda extends Component {
                         {this.state.preguntas.map(pregunta => {
                             return (
                                 <Pregunta
-                                    key={pregunta.url}
+                                    key={pregunta.id}
                                     pregunta={pregunta}
                                     cardMode={true}
                                 />

@@ -31,7 +31,8 @@ export class App extends Component {
                     <Route path='/sobre-nosotros' component={SobreNosotros} />
                     <Route path='/mis-preguntas' component={MisPreguntas} />
                     <Route path='/ayuda' component={Ayuda} />
-                    <Route path='/chat' component={Chats} />
+                    <Route path='/chats' component={Chats} />
+                    <Route path='/chat/:id_key' exact component={ChatRoom} />
                     <Route path='/busqueda' component={Busqueda} />
                 </Switch>
             </Router>

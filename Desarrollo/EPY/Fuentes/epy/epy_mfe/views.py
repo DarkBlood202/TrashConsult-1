@@ -3,5 +3,5 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 
 # Create your views here.
 @ensure_csrf_cookie
-def index(req):
+def index(req, **kwargs):
     return render(req, 'epy_mfe/index.html')

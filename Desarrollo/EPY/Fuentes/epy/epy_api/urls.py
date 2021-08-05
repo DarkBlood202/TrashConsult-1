@@ -8,9 +8,8 @@ router.register('preguntas', views.PreguntaViewSet)
 router.register('usuarios', views.UsuarioViewSet)
 router.register('estudiantes', views.EstudianteViewSet)
 router.register('profesores', views.ProfesorViewSet)
-
 router.register('crear-sesion', views.SesionViewSet)
-# router.register('editar-usuario', views.UsuarioDataUpdateViewSet)
+router.register('mensajes', views.MensajeViewSet)
 
 usuario_data_detail = views.UsuarioDataUpdateViewSet.as_view({
     'get': 'retrieve',

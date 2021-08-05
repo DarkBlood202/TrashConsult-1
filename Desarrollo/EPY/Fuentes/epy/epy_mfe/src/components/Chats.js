@@ -15,7 +15,7 @@ export class Chats extends Component {
     }
 
     obtenerUsuario(){
-        axios.get('api/obtener-usuario/')
+        axios.get('/api/obtener-usuario/')
             .then(res => {
                 this.setState({
                     usuario: res.data
@@ -24,14 +24,14 @@ export class Chats extends Component {
     }
 
     obtenerDataUsuario(id){
-        axios.get(`api/usuarios/${id}`)
+        axios.get(`/api/usuarios/${id}`)
             .then(res => {
                 return res.data;
             });
     }
 
     obtenerSesiones(){
-        axios.get('api/crear-sesion/')
+        axios.get('/api/crear-sesion/')
             .then(res => {
                 let totalSesiones = [];
                 totalSesiones = res.data;
@@ -83,14 +83,14 @@ export class Chats extends Component {
                                                         />
                                                     )
                                                 })}
-                                                <PersonTarget
+                                                {/* <PersonTarget
                                                     name="Este chat está desbloqueado"
                                                     time="admin"
                                                     sessionKey="0000000000000000"
                                                     img="https://www.bootdey.com/img/Content/avatar/avatar1.png"
                                                     status="status busy"
                                                     prueba={true}
-                                                />
+                                                /> */}
                                             </ul>
                                         </div>
                                     </div>

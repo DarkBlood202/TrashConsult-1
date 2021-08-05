@@ -43,7 +43,7 @@ export class Registro extends Component {
         event.preventDefault();
 
         if (!this.state.is_estudiante && !this.state.is_profesor){
-            console.log("Espera");
+            // console.log("Espera");
             return;
         }
 
@@ -120,7 +120,7 @@ export class Registro extends Component {
                         onInput={this.handleInput}
                         required
                     />
-                    <label htmlFor="password">Constraseña</label>
+                    <label htmlFor="password">Contraseña</label>
                     <input
                         type="password"
                         name="password"

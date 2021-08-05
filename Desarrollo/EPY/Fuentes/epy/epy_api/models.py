@@ -5,6 +5,9 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     is_estudiante = models.BooleanField(default=False)
     is_profesor = models.BooleanField(default=False)
+    valoracion = models.FloatField(default=0)
+
+    tarifa = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
 class Pregunta(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
@@ -23,12 +26,12 @@ class ArchivoPregunta(models.Model):
 
 class Estudiante(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    valoracion = models.FloatField(default=0)
+    # valoracion = models.FloatField(default=0)
 
 class Profesor(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    tarifa = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-    valoracion = models.FloatField(default=0)
+    # tarifa = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    # valoracion = models.FloatField(default=0)
 
 class Sesion(models.Model):
     id_key = models.CharField(max_length=16, unique=True)
@@ -43,3 +46,6 @@ class Mensaje(models.Model):
     sesion = models.ForeignKey(Sesion, related_name='mensaje', on_delete=models.CASCADE)
     contenido = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['timestamp']
