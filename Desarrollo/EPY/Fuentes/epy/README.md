@@ -6,7 +6,6 @@ El sistema Edupy (EPY) está constituido por un backend en Django Framework y fr
 
 -   Intérprete Python 3.9+
 -   NodeJS
--   Redis (Docker)
 
 ## Instrucciones
 
@@ -54,11 +53,3 @@ npm run production	# modo de producción
 ```
 localhost:8000/
 ```
-
-7. Para poder utilizar el módulo de chat, necesita una instancia de Redis corriendo en el puerto 6379
-
-```
-docker run -p 6379:6379 redis:5
-```
-
-> Ejecutar `docker run -p 6379:6379 redis:5` dejará su terminal ocupada.
