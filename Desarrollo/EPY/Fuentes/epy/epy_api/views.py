@@ -1,10 +1,10 @@
-from rest_framework import permissions, viewsets, generics, views, mixins
+from rest_framework import permissions, viewsets, generics, views
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework.parsers import MultiPartParser
+from rest_framework.parsers import MultiPartParser, FileUploadParser, FormParser
 
-from .models import Pregunta, User, Estudiante, Profesor, Sesion, Mensaje
+from .models import Pregunta, User, Estudiante, Profesor, Sesion, Mensaje, Reporte, Archivo
 from .serializers import *
 from .permissions import IsAuthorOrReadOnly, IsOwnerProfileOrReadOnly as IsOwnerUserOrReadOnly, IsSameUserOrReadOnly
 
@@ -86,6 +86,17 @@ class SesionViewSet(viewsets.ModelViewSet):
 class MensajeViewSet(viewsets.ModelViewSet):
     queryset = Mensaje.objects.all()
     serializer_class = MensajeSerializer
+    parser_classes = [MultiPartParser, FormParser]
     permission_classes = [
         permissions.IsAuthenticated,
     ]
+
+class ArchivoViewSet(viewsets.ModelViewSet):
+    queryset = Archivo.objects.all()
+    serializer_class = ArchivoSerializer
+    parser_classes = [MultiPartParser]
+    http_method_names = ['get', 'post', 'delete']
+
+class ReporteViewSet(viewsets.ModelViewSet):
+    queryset = Reporte.objects.all()
+    serializer_class = ReporteSerializer

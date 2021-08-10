@@ -16,6 +16,9 @@ export default function ChatRoom() {
     const [peer, setPeer] = useState([]);
 
     const [mensaje, setMensaje] = useState([]);
+    const [archivo, setArchivo] = useState(undefined);
+
+    var someFile = undefined;
 
     const obtenerMensajes = (sessionKey) => {
         axios.get('/api/mensajes')
@@ -74,6 +77,15 @@ export default function ChatRoom() {
         setMensaje(event.target.value);
     }
 
+    const handleFile = (event) => {
+        if(event.loaded == event.total){
+            console.log(someFile);
+            someFile = event.target.files;
+            console.log(someFile);
+            // setArchivo(event.target.files);
+        }
+    }
+
     const enviarMensaje = (event) => {
         event.preventDefault();
 
@@ -82,25 +94,53 @@ export default function ChatRoom() {
             return;
         }
 
-        axios.post('/api/mensajes/', {
-            "contenido": mensaje,
-            "sesion": sesion.id,
-            "autor": user.id
-        },{
+        let mensajeData = new FormData();
+
+        mensajeData.append("contenido", mensaje);
+        mensajeData.append("sesion", sesion.id);
+        mensajeData.append("autor", user.id);
+        mensajeData.append("adjunto", someFile, someFile.name);
+
+        axios.post('/api/mensajes/', mensajeData, {
             headers: {
                 'X-CSRFTOKEN': csrfCookie,
+                'Content-Type': 'multipart/form-data'
             }
         })
             .then(res => {
-                // console.log(res);
                 setMensaje("");
-
                 obtenerMensajes(params.id_key);
             })
+
+        // axios.post('/api/mensajes/', {
+        //     "contenido": mensaje,
+        //     "sesion": sesion.id,
+        //     "autor": user.id,
+        //     "adjunto": someFile,
+        // },{
+        //     headers: {
+        //         'X-CSRFTOKEN': csrfCookie,
+        //     }
+        // })
+        //     .then(res => {
+        //         // console.log(res);
+        //         setMensaje("");
+
+        //         obtenerMensajes(params.id_key);
+        //     })
     }
 
     const actualizar = (ms) => {
         setInterval(function(){
+            // console.log("Triggered");
+            // document.addEventListener("visibilitychange", function(){
+            //     if(document[this.hidden]){
+            //         console.log("Nothing cuz page is not active");
+            //     } else {
+            //         console.log("Getting");
+            //         obtenerMensajes(params.id_key);
+            //     }
+            // }, false);
             obtenerMensajes(params.id_key);
             // console.log("Actualizado!");
         }, ms)
@@ -126,6 +166,7 @@ export default function ChatRoom() {
                         <Mensaje
                             key={mensaje.id}
                             mensaje={mensaje.contenido}
+                            adjunto={mensaje.adjunto.archivo}
                             propio={mensaje.autor.id === user.id ? true : false}
                             timestamp={mensaje.timestamp}
                             autor={mensaje.autor}
@@ -142,6 +183,8 @@ export default function ChatRoom() {
                             value={mensaje}
                             onInput={handleInput}
                         />
+                        {/* <FileUploader onFileSelectSuccess={(file) => setArchivo(file)} onFileSelectError={({error}) => alert(error)} /> */}
+                        <input type="file" onChange={handleFile}/>
                         <div className="input-group-append">
                             <button id="button-addon2" type="submit" className="btn btn-link"> <i className="fa fa-paper-plane" /></button>
                         </div>

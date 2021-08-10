@@ -80,6 +80,7 @@ export class Chats extends Component {
                                                             sessionKey={sesion.id_key}
                                                             img="https://www.bootdey.com/img/Content/avatar/avatar3.png"
                                                             status="status busy"
+                                                            nuevo={sesion.nuevo}
                                                         />
                                                     )
                                                 })}
