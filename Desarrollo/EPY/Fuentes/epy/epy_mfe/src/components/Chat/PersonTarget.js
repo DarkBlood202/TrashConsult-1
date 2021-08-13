@@ -29,14 +29,6 @@ export class PersonTarget extends Component {
             window.location.replace(`/chat/${this.props.sessionKey}`);
         }
 
-        
-
-        // console.log("Has aceptado el chat!");
-        // if(this.props.prueba){
-        //     window.location.replace(`/epychat/${this.props.sessionKey}`)
-        // } else {
-        //     window.location.replace('https://mpago.la/25hXPig');
-        // }
     }
 
     rechazarChat = (event) => {
@@ -78,7 +70,11 @@ export class PersonTarget extends Component {
                     <button
                         className="col btn btn-primary btn-sm"
                         onClick={this.aceptarChat}
-                    >Ir</button>
+                    >Abrir</button>
+                    <button
+                        className="col btn btn-danger btn-sm"
+                        onClick={this.rechazarChat}
+                    >Eliminar</button>
                 </div>
             )
         }

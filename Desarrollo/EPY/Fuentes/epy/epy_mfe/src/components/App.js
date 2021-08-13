@@ -15,6 +15,8 @@ import Chats from './Chats';
 import ChatRoom from './ChatRoom';
 import Busqueda from './Busqueda';
 
+import ModalValoracion from './Valoracion/ModalValoracion';
+
 export class App extends Component {
     constructor(props) {
         super(props);

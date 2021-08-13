@@ -24,7 +24,7 @@ export class CardUsuario extends Component {
                         <h2 className="card__title">{tipoUsuario}</h2>
                         <p className="card__text">{`${usuario.first_name} ${usuario.last_name}`}</p>
                         <a className="card__text text-primary">@{usuario.username}</a>
-                        <p className="card__text text-muted">Valoración: {usuario.valoracion}/10</p>
+                        <p className="card__text text-muted">Valoración: {Math.round(usuario.valoracion * 100)/100}/10</p>
                         {tarifa}
                     </div>
                 </div>

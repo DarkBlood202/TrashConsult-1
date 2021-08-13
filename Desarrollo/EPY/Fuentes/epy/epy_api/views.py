@@ -73,7 +73,7 @@ class UsuarioDataUpdateViewSet(viewsets.ModelViewSet):
     serializer_class = TipoUsuarioSerializer
     permission_classes = [
         permissions.IsAuthenticated,
-        IsSameUserOrReadOnly
+        # IsSameUserOrReadOnly
     ]
 
 class SesionViewSet(viewsets.ModelViewSet):
@@ -86,7 +86,7 @@ class SesionViewSet(viewsets.ModelViewSet):
 class MensajeViewSet(viewsets.ModelViewSet):
     queryset = Mensaje.objects.all()
     serializer_class = MensajeSerializer
-    parser_classes = [MultiPartParser, FormParser]
+    # parser_classes = [MultiPartParser, FormParser]
     permission_classes = [
         permissions.IsAuthenticated,
     ]

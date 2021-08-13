@@ -8,7 +8,6 @@ class User(AbstractUser):
     is_estudiante = models.BooleanField(default=False)
     is_profesor = models.BooleanField(default=False)
     valoracion = models.FloatField(default=0)
-
     tarifa = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
 class Pregunta(models.Model):
@@ -46,6 +45,7 @@ class Sesion(models.Model):
     participantes = models.ManyToManyField(User, related_name='participantes', blank=True)
     asunto = models.CharField(max_length=64, default="(Sin título)")
     nuevo = models.BooleanField(default=True)
+    terminada = models.BooleanField(default=False)
     
     def __str__(self):
         return f"ID: {self.id_key} - {self.asunto}"
@@ -65,7 +65,7 @@ class Reporte(models.Model):
     CATEGORIA_REPORTE = [
         ('BUG', 'Mal funcionamiento de la plataforma'),
         ('ABUSE', 'Comportamiento indebido de uno de los usuarios'),
-        ('QUALITY', 'Insatisfacción con el servicio'),
+        ('QUALITY', 'Satisfacción con el servicio'),
         ('OTHER', 'Otros'),
     ]
 

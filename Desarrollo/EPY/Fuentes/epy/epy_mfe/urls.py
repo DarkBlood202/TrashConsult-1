@@ -12,5 +12,5 @@ urlpatterns = [
     path('editar-perfil', views.index),
     path('chats', views.index),
     path('chat/<str:id_key>', views.index),
-    path('busqueda', views.index)
+    path('busqueda', views.index),
 ]
