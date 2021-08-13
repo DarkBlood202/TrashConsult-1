@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+import BotonPagos from './BotonPagos';
+
 var csrfCookie = Cookies.get('csrftoken');
 
 
@@ -12,14 +14,21 @@ export class PersonTarget extends Component {
     }
 
     aceptarChat = (event) => {
-        window.location.replace(`/chat/${this.props.sessionKey}`);
+        if(this.props.nuevo){
+            axios.patch(`/api/crear-sesion/${this.props.id}/`, {
+                "nuevo": false
+            }, {
+                headers: {
+                    'X-CSRFTOKEN': csrfCookie,
+                }
+            })
+            .then(res => {
+                window.location.replace(`/chat/${this.props.sessionKey}`);
+            })
+        } else {
+            window.location.replace(`/chat/${this.props.sessionKey}`);
+        }
 
-        // console.log("Has aceptado el chat!");
-        // if(this.props.prueba){
-        //     window.location.replace(`/epychat/${this.props.sessionKey}`)
-        // } else {
-        //     window.location.replace('https://mpago.la/25hXPig');
-        // }
     }
 
     rechazarChat = (event) => {
@@ -39,6 +48,37 @@ export class PersonTarget extends Component {
     }
 
     render() {
+
+        let botonesAccion;
+        if(this.props.nuevo){
+            botonesAccion = (
+                <div>
+                    <button
+                        className="col btn btn-primary btn-sm"
+                        onClick={this.aceptarChat}
+                    >Aceptar</button>
+                    <button
+                        className="col btn btn-danger btn-sm"
+                        onClick={this.rechazarChat}
+                    >Rechazar</button>
+                    {/* <BotonPagos  /> */}
+                </div>
+            )
+        } else {
+            botonesAccion = (
+                <div>
+                    <button
+                        className="col btn btn-primary btn-sm"
+                        onClick={this.aceptarChat}
+                    >Abrir</button>
+                    <button
+                        className="col btn btn-danger btn-sm"
+                        onClick={this.rechazarChat}
+                    >Eliminar</button>
+                </div>
+            )
+        }
+
         return (
             <li
                 className="person"
@@ -53,14 +93,7 @@ export class PersonTarget extends Component {
                     {" - "}
                     <span className="time">{this.props.time}</span>
                 </p>
-                <button
-                    className="col btn btn-primary btn-sm"
-                    onClick={this.aceptarChat}
-                >Aceptar</button>
-                <button
-                    className="col btn btn-danger btn-sm"
-                    onClick={this.rechazarChat}
-                >Rechazar</button>
+                { botonesAccion }
             </li>
         )
     }

@@ -376,3 +376,11 @@ ul {
     margin-bottom: 2rem;
     box-shadow: none;
 }
+
+.chatContainerScroll {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0 0;
+    height: 350px;
+    overflow-y: auto;
+}

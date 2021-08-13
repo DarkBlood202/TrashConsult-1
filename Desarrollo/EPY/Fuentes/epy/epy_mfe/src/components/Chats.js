@@ -59,16 +59,6 @@ export class Chats extends Component {
                                 <div className="row no-gutters">
                                     <div>
                                         <div className="users-container">
-                                            {/* <div className="chat-search-box">
-                                                <div className="input-group">
-                                                    <input className="form-control" placeholder="Buscar" />
-                                                    <div className="input-group-btn">
-                                                        <button type="button" className="btn btn-info">
-                                                            <i className="fa fa-search" />
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div> */}
                                             <ul className="users mx-4">
                                                 {this.state.sesiones.map(sesion => {
                                                     return (
@@ -80,17 +70,10 @@ export class Chats extends Component {
                                                             sessionKey={sesion.id_key}
                                                             img="https://www.bootdey.com/img/Content/avatar/avatar3.png"
                                                             status="status busy"
+                                                            nuevo={sesion.nuevo}
                                                         />
                                                     )
                                                 })}
-                                                {/* <PersonTarget
-                                                    name="Este chat está desbloqueado"
-                                                    time="admin"
-                                                    sessionKey="0000000000000000"
-                                                    img="https://www.bootdey.com/img/Content/avatar/avatar1.png"
-                                                    status="status busy"
-                                                    prueba={true}
-                                                /> */}
                                             </ul>
                                         </div>
                                     </div>

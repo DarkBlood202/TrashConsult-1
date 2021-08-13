@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Pregunta, User, Estudiante, Profesor, ArchivoPregunta, Sesion, Mensaje
+from .models import Pregunta, User, Estudiante, Profesor, Archivo, Sesion, Mensaje, Reporte
 
 class MarcadorSerializer(serializers.ModelSerializer):
     # marcador_username = serializers.ReadOnlyField(source='User.username')
@@ -12,8 +12,8 @@ class MarcadorSerializer(serializers.ModelSerializer):
 
 class ArchivoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ArchivoPregunta
-        fields = ['archivo']
+        model = Archivo
+        fields = '__all__'
 
 class UsuarioSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -118,3 +118,8 @@ class MensajeSerializer(serializers.ModelSerializer):
         representation['autor'] = UsuarioMiniSerializer(instance.autor).data
         representation['sesion'] = SesionMiniSerializer(instance.sesion).data
         return representation
+
+class ReporteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reporte
+        fields = '__all__'
