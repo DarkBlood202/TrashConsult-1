@@ -18,7 +18,15 @@ class ArchivoSerializer(serializers.ModelSerializer):
 class UsuarioSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'is_estudiante', 'is_profesor']
+        fields = [
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'is_estudiante',
+            'is_profesor',
+            'is_admin'
+            ]
 
 class UsuarioMiniSerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,7 +48,8 @@ class UsuarioCreateSerializer(serializers.ModelSerializer):
             'username',
             'password',
             'is_estudiante',
-            'is_profesor'
+            'is_profesor',
+            'is_admin'
         ]
         extra_kwargs = {
             'password': {

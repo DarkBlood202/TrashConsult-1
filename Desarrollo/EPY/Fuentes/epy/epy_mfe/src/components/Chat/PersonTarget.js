@@ -54,7 +54,7 @@ export class PersonTarget extends Component {
             botonesAccion = (
                 <div>
                     <button
-                        className="col btn btn-primary btn-sm"
+                        className="col btn btn-success btn-sm"
                         onClick={this.aceptarChat}
                     >Aceptar</button>
                     <button

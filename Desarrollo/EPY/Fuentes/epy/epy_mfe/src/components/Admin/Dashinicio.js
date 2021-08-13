@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 
 export class Dashinicio extends Component {
+    constructor(props){
+        super(props);
+        this.state = {};
+    }
     render() {
         return (
             <div className="container-fluid">
@@ -18,7 +22,7 @@ export class Dashinicio extends Component {
                                     <div className="col mr-2">
                                         <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                             Usuarios </div>
-                                        <div className="h5 mb-0 font-weight-bold text-gray-800">400</div>
+                                        <div className="h5 mb-0 font-weight-bold text-gray-800">{this.props.usuarios.length}</div>
                                     </div>
                                     <div className="col-auto">
                                         <i className="fas fa-user fa-2x text-gray-300" />
@@ -35,7 +39,7 @@ export class Dashinicio extends Component {
                                     <div className="col mr-2">
                                         <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
                                             Preguntas</div>
-                                        <div className="h5 mb-0 font-weight-bold text-gray-800">3000</div>
+                                        <div className="h5 mb-0 font-weight-bold text-gray-800">{this.props.preguntas.length}</div>
                                     </div>
                                     <div className="col-auto">
                                         <i className="fas fa-dollar-sign fa-2x text-gray-300" />
@@ -52,7 +56,7 @@ export class Dashinicio extends Component {
                                     <div className="col mr-2">
                                         <div className="text-xs font-weight-bold text-info text-uppercase mb-1">
                                             Sesiones </div>
-                                        <div className="h5 mb-0 font-weight-bold text-gray-800">30</div>
+                                        <div className="h5 mb-0 font-weight-bold text-gray-800">{this.props.sesiones.length}</div>
                                     </div>
                                     <div className="col-auto">
                                         <i className="fas fa-comments-dollar fa-2x text-gray-300" />
@@ -69,7 +73,7 @@ export class Dashinicio extends Component {
                                     <div className="col mr-2">
                                         <div className="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                             Reportes</div>
-                                        <div className="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                        <div className="h5 mb-0 font-weight-bold text-gray-800">{this.props.reportes.length}</div>
                                     </div>
                                     <div className="col-auto">
                                         <i className="fas fa-bug fa-2x text-gray-300" />

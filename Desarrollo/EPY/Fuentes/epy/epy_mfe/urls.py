@@ -7,12 +7,12 @@ urlpatterns = [
     path('perfil', views.index),
     path('inicio', views.index),
     path('sobre-nosotros', views.index),
-    path('mis-preguntas', views.index),
     path('ayuda', views.index),
     path('editar-perfil', views.index),
     path('chats', views.index),
     path('chat/<str:id_key>', views.index),
     path('busqueda', views.index),
+    path('reporte', views.index),
 
     path('administracion', views.administracion),
     path('administracion/reportes', views.administracion),

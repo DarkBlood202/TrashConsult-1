@@ -89,12 +89,13 @@ export class ModalValoracion extends Component {
 								className="form-control"
 							/>
 							<br />
-							<button
-								type="button"
+							<a
+								href="/reporte"
+								target="_blank"
 								className="col btn btn-link text-danger"
 							>
 								Reportar...
-							</button>
+							</a>
 							<button
 								type="submit"
 								className="btn btn-primary btn--block"

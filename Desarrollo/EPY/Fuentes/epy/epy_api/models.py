@@ -7,6 +7,7 @@ from django.dispatch import receiver
 class User(AbstractUser):
     is_estudiante = models.BooleanField(default=False)
     is_profesor = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
     valoracion = models.FloatField(default=0)
     tarifa = models.DecimalField(max_digits=8, decimal_places=2, default=0)
 
@@ -69,6 +70,20 @@ class Reporte(models.Model):
         ('OTHER', 'Otros'),
     ]
 
+    ESTADO_REPORTE = [
+        ('EN_OBSERVACION', 'Reporte en observación por el equipo de administradores'),
+        ('APROBADO', 'Reporte aprobado por el equipo de administradores'),
+        ('RECHAZADO', 'Reporte rechazado por el equipo de administradores'),
+    ]
+
     autor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='autor_reporte')
     categoria = models.TextField(choices=CATEGORIA_REPORTE)
+    estado = models.TextField(choices=ESTADO_REPORTE, default='EN_OBSERVACION')
     descripcion = models.TextField()
+    fecha_envio = models.DateTimeField(auto_now_add=True)
+    
+    conteo_aprobado = models.IntegerField(default=0)
+    conteo_rechazado = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['fecha_envio']

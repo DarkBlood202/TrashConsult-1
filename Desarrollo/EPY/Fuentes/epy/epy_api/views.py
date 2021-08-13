@@ -25,7 +25,6 @@ class PreguntaViewSet(viewsets.ModelViewSet):
     # parser_classes = [MultiPartParser]
     permission_classes = [
         permissions.IsAuthenticated,
-        IsAuthorOrReadOnly
     ]
 
     def perform_create(self, serializer):
