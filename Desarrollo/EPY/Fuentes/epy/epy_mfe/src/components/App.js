@@ -9,11 +9,11 @@ import Login from './Auth/Login';
 import Perfil from './Perfil';
 import Inicio from './Inicio';
 import SobreNosotros from './SobreNosotros';
-import MisPreguntas from './MisPreguntas';
 import Ayuda from './Ayuda';
 import Chats from './Chats';
 import ChatRoom from './ChatRoom';
 import Busqueda from './Busqueda';
+import ModalReporte from './Valoracion/ModalReporte';
 
 
 export class App extends Component {
@@ -30,11 +30,11 @@ export class App extends Component {
                     <Route path='/perfil' component={Perfil} />
                     <Route path='/inicio' component={Inicio} />
                     <Route path='/sobre-nosotros' component={SobreNosotros} />
-                    <Route path='/mis-preguntas' component={MisPreguntas} />
                     <Route path='/ayuda' component={Ayuda} />
                     <Route path='/chats' component={Chats} />
                     <Route path='/chat/:id_key' exact component={ChatRoom} />
                     <Route path='/busqueda' component={Busqueda} />
+                    <Route path='/reporte' component={ModalReporte} />
                 </Switch>
             </Router>
         )

@@ -61,6 +61,7 @@ export class Inicio extends Component {
                                 />
                             )
                         })}
+                        {this.state.preguntas.length === 0 ? <div className="card-text text-secondary">No hay preguntas.</div> : ""}
                     </div>
                 </div>
             </div>

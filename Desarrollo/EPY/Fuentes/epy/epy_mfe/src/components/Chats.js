@@ -20,6 +20,7 @@ export class Chats extends Component {
                 this.setState({
                     usuario: res.data
                 });
+                console.log(this.state.usuario.id);
             });
     }
 
@@ -38,11 +39,11 @@ export class Chats extends Component {
                 totalSesiones.filter(sesion => {
                     return sesion.participantes.includes(this.state.usuario.id)
                 });
+                console.log(totalSesiones);
 
                 this.setState({
                     sesiones: totalSesiones,
                 });
-                // console.log(this.state.sesiones);
             });
     }
 
