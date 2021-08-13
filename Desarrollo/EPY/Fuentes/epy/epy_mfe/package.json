@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --mode development --watch ./src/index.js --output-path ./static/epy_mfe/",
-    "production": "webpack --mode production ./src/index.js --output-path ./static/epy_mfe/"
+    "admindev": "webpack --mode development --watch ./src/administration.js --output-path ./static/epy_mfe/administration/",
+    "maindev": "webpack --mode development --watch ./src/mainapp.js --output-path ./static/epy_mfe/main/",
+    "adminprod": "webpack --mode production ./src/administration.js --output-path ./static/epy_mfe/administration/",
+    "mainprod": "webpack --mode production ./src/mainapp.js --output-path ./static/epy_mfe/main/"
   },
   "keywords": [],
   "author": "",

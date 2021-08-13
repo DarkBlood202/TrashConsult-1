@@ -13,4 +13,10 @@ urlpatterns = [
     path('chats', views.index),
     path('chat/<str:id_key>', views.index),
     path('busqueda', views.index),
+
+    path('administracion', views.administracion),
+    path('administracion/reportes', views.administracion),
+    path('administracion/preguntas', views.administracion),
+    path('administracion/usuarios', views.administracion),
+    path('administracion/sesiones', views.administracion),
 ]

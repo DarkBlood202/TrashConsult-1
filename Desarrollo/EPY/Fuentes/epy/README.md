@@ -39,14 +39,18 @@ python manage.py runserver
 5. Para compilar el frontend de forma dinámica, dirígase al directorio **epy_mfe** y ejecute:
 
 ```
-npm i
-npm run dev			# modo de desarrollo
-npm run production	# modo de producción
+npm i               # instalacion de paquetes
+
+npm run maindev		# modo de desarrollo (main)
+npm run mainprod	# modo de producción (main)
+
+npm run admindev    # modo de desarrollo (administracion)
+npm run adminprod   # modo de produccion (administracion)
 ```
 
 (Puede prescindir de este comando si no desea compilar dinámicamente el frontend).
 
-> Ejecutar `npm run dev` dejará su terminal ocupada.
+> Ejecutar `npm run maindev` o `npm run admindev` dejará su terminal ocupada.
 
 6. Para acceder, dirígase a su navegador web a la dirección:
 
