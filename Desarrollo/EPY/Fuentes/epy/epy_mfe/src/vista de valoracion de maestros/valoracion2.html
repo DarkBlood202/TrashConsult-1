@@ -1,0 +1,20 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.26/vue.min.js"></script>
+
+<link rel="stylesheet" href="style.css">
+<div id="app">
+  <ul class="contenedor">
+    <h1>Valoracion de maestros</h1>
+    <li v-for="item in dev" class="item">
+      <div>
+        <h2>{{item.name}}</h2>
+        <p>{{item.cursos}}</p>
+        <star-rating :value.sync="item.level" :name="item.name"></star-rating>
+      </div>
+      <figure>
+        <img src={{item.src}} alt="">
+      </figure>
+    </li>
+  </ul>
+  <!-- <pre>{{dev | json}}</pre> -->
+  <script type="text/javascript" src="script.js"></script>
+</div>
