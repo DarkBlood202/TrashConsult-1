@@ -109,7 +109,7 @@ class SesionSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super(SesionSerializer, self).to_representation(instance)
-        representation['participantes'] = UsuarioSerializer(instance.participantes.all(),many=True).data
+        representation['participantes'] = TipoUsuarioSerializer(instance.participantes.all(),many=True).data
         return representation
 
 class SesionMiniSerializer(serializers.ModelSerializer):

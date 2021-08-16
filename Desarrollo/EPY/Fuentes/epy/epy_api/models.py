@@ -8,8 +8,8 @@ class User(AbstractUser):
     is_estudiante = models.BooleanField(default=False)
     is_profesor = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
-    valoracion = models.FloatField(default=0)
-    tarifa = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    valoracion = models.FloatField(default=10)
+    tarifa = models.DecimalField(max_digits=8, decimal_places=2, default=0.01)
 
 class Pregunta(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
