@@ -22,11 +22,13 @@
     "webpack-cli": "^4.7.2"
   },
   "dependencies": {
+    "@paypal/react-paypal-js": "^7.2.1",
     "axios": "^0.21.1",
     "js-cookie": "^2.2.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-hot-toast": "^2.1.0",
     "react-router-dom": "^5.2.0"
   }
 }
