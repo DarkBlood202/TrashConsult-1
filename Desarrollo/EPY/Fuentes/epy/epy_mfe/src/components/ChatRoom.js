@@ -18,25 +18,95 @@ export default function ChatRoom() {
 
   const [mensaje, setMensaje] = useState("");
   const [msgToggle, setMsgToggle] = useState(false);
-  const [archivo, setArchivo] = useState(undefined);
+
+  const [image, setImage] = useState("");
+  const [imageURL, setImageURL] = useState("");
 
   const [modalToggle, setModalToggle] = useState(false);
 
-  var someFile = undefined;
+  const subirImagen = () => {
+    const imageData = new FormData();
 
-  var modal = "";
+    imageData.append("file", image);
+    imageData.append("upload_preset", "xxfnfjn1");
+    imageData.append("cloud_name", "dyzt1qzeb");
+
+    axios
+      .post("https://api.cloudinary.com/v1_1/dyzt1qzeb/image/upload", imageData)
+      .then((res) => {
+        // console.log(res);
+        // console.log(res.data.url);
+
+        const urlImagen = res.data.url;
+
+        axios
+          .post(
+            "/api/mensajes-multimedia/",
+            {
+              multimedia: urlImagen,
+              sesion: sesion.id,
+              autor: user.id,
+            },
+            {
+              headers: {
+                "X-CSRFTOKEN": csrfCookie,
+              },
+            }
+          )
+          .then((resp) => {
+            // console.log(resp);
+            setImage("");
+            obtenerMensajes();
+            // window.location.reload();
+          });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   const obtenerMensajes = (sessionKey) => {
+    let mensajesTexto = [];
+    let mensajesMultimedia = [];
+
     axios.get("/api/mensajes").then((res) => {
       let mensajesRaw = res.data;
-      // console.log(mensajesRaw);
 
       // Obtener mensajes de la sesion con ese id_key
       let mensajesFiltrados = mensajesRaw.filter((mensaje) => {
         return mensaje.sesion.id_key == sessionKey;
       });
 
-      setData(mensajesFiltrados);
+      mensajesTexto = mensajesFiltrados;
+      // console.log(mensajesTexto);
+
+      axios.get("/api/mensajes-multimedia").then((res) => {
+        let mensajesMultRaw = res.data;
+
+        let mensajesMultFiltrados = mensajesMultRaw.filter((mensaje) => {
+          return mensaje.sesion.id_key == sessionKey;
+        });
+
+        mensajesMultimedia = mensajesMultFiltrados;
+        // console.log(mensajesMultimedia);
+
+        const mensajesTotales = [...mensajesTexto, ...mensajesMultimedia];
+
+        mensajesTotales.sort((a, b) => {
+          if (a.timestamp < b.timestamp) {
+            return -1;
+          }
+          if (a.timestamp > b.timestamp) {
+            return 1;
+          }
+          return 0;
+        });
+
+        // console.log(mensajesTotales);
+        setData(mensajesTotales);
+      });
+
+      // setData(mensajesFiltrados);
     });
   };
 
@@ -78,40 +148,12 @@ export default function ChatRoom() {
     setMensaje(event.target.value);
   };
 
-  const handleFile = (event) => {
-    if (event.loaded == event.total) {
-      console.log(someFile);
-      someFile = event.target.files;
-      console.log(someFile);
-      // setArchivo(event.target.files);
-    }
-  };
-
   const enviarMensaje = (event) => {
     event.preventDefault();
 
     if (mensaje.trim().length === 0) {
-      // console.log("no puedes enviar vacio")
       return;
     }
-
-    // let mensajeData = new FormData();
-
-    // mensajeData.append("contenido", mensaje);
-    // mensajeData.append("sesion", sesion.id);
-    // mensajeData.append("autor", user.id);
-    // mensajeData.append("adjunto", someFile, someFile.name);
-
-    // axios.post('/api/mensajes/', mensajeData, {
-    //     headers: {
-    //         'X-CSRFTOKEN': csrfCookie,
-    //         'Content-Type': 'multipart/form-data'
-    //     }
-    // })
-    //     .then(res => {
-    //         setMensaje("");
-    //         obtenerMensajes(params.id_key);
-    //     })
 
     axios
       .post(
@@ -120,7 +162,6 @@ export default function ChatRoom() {
           contenido: mensaje,
           sesion: sesion.id,
           autor: user.id,
-          // "adjunto": someFile,
         },
         {
           headers: {
@@ -138,17 +179,7 @@ export default function ChatRoom() {
 
   const actualizar = (ms) => {
     setInterval(function () {
-      // console.log("Triggered");
-      // document.addEventListener("visibilitychange", function(){
-      //     if(document[this.hidden]){
-      //         console.log("Nothing cuz page is not active");
-      //     } else {
-      //         console.log("Getting");
-      //         obtenerMensajes(params.id_key);
-      //     }
-      // }, false);
       obtenerMensajes(params.id_key);
-      // console.log("Actualizado!");
     }, ms);
   };
 
@@ -179,6 +210,12 @@ export default function ChatRoom() {
     setMsgToggle(!val);
   };
 
+  const obtenerKey = () => {
+    let arr = new Uint8Array((length = 16));
+    window.crypto.getRandomValues(arr);
+    return arr.join("").slice(0, 16);
+  };
+
   useEffect(() => {
     obtenerUsuario();
     obtenerSesion(params.id_key);
@@ -201,7 +238,6 @@ export default function ChatRoom() {
           onInput={handleInput}
           disabled={sesion.terminada}
         />
-        {/* <input type="file" onChange={handleFile}/> */}
         <div className="input-group-append">
           <button id="button-addon2" type="submit" className="btn btn-link">
             {" "}
@@ -211,7 +247,26 @@ export default function ChatRoom() {
       </div>
     );
   } else {
-    formComponent = <div className="text-primary">Multimedia</div>;
+    formComponent = (
+      <div className="input-group">
+        <input
+          type="file"
+          onChange={(e) => setImage(e.target.files[0])}
+          className="form-control"
+        />
+        <div className="input-group-append">
+          <button
+            id="button-addon2"
+            type="button"
+            onClick={subirImagen}
+            className="btn btn-link"
+          >
+            {" "}
+            <i className="fa fa-paper-plane" />
+          </button>
+        </div>
+      </div>
+    );
   }
 
   if (modalToggle) {
@@ -240,8 +295,9 @@ export default function ChatRoom() {
             </li>
             {data.map((mensaje) => (
               <Mensaje
-                key={mensaje.id}
+                key={obtenerKey()}
                 mensaje={mensaje.contenido}
+                imagen={mensaje.multimedia}
                 // adjunto={mensaje.adjunto.archivo}
                 propio={mensaje.autor.id === user.id ? true : false}
                 timestamp={mensaje.timestamp}

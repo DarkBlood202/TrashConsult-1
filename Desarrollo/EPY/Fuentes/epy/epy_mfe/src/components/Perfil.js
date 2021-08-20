@@ -1,216 +1,212 @@
-import React, { Component } from 'react'
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import React, { Component } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
 
-var csrfCookie = Cookies.get('csrftoken');
+var csrfCookie = Cookies.get("csrftoken");
 
 export class Perfil extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            id: null,
-            username: "",
-            first_name: "",
-            last_name: "",
-            is_estudiante: false,
-            is_profesor: false,
-            tarifa: "0.00",
-            valoracion: 0,
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: null,
+      username: "",
+      first_name: "",
+      last_name: "",
+      is_estudiante: false,
+      is_profesor: false,
+      tarifa: "0.00",
+      valoracion: 0,
 
-            editando: false,
-        };
-        this.obtenerDatosUsuario();
-    }
+      editando: false,
+    };
+    this.obtenerDatosUsuario();
+  }
 
-    obtenerDatosUsuario() {
-        axios.get('/api/obtener-usuario')
-            .then(res => {
-                this.setState({
-                    id: res.data.id,
-                    username: res.data.username,
-                    first_name: res.data.first_name,
-                    last_name: res.data.last_name,
-                    is_estudiante: res.data.is_estudiante,
-                    is_profesor: res.data.is_profesor,
-                });
-                this.redireccionLogin();
+  obtenerDatosUsuario() {
+    axios.get("/api/obtener-usuario").then((res) => {
+      this.setState({
+        id: res.data.id,
+        username: res.data.username,
+        first_name: res.data.first_name,
+        last_name: res.data.last_name,
+        is_estudiante: res.data.is_estudiante,
+        is_profesor: res.data.is_profesor,
+      });
+      this.redireccionLogin();
 
-                axios.get(`/api/editar-usuario/${res.data.id}`)
-                    .then(res => {
-                        this.setState({
-                            tarifa: res.data.tarifa,
-                            valoracion: res.data.valoracion
-                        });
-                    });
-
-            })
-    }
-
-    redireccionLogin() {
-        if (this.state.id === null && this.state.username === "") {
-            window.location.replace('/');
-        }
-    }
-
-    toggleEditando = () => {
-        if (this.state.editando) {
-            this.setState({
-                editando: false
-            });
-            this.obtenerDatosUsuario();
-        } else {
-            this.setState({
-                editando: true
-            });
-        }
-        // console.log(this.state);
-    }
-
-    handleInput = (event) => {
-        let nam = event.target.name;
-        let val = event.target.value;
+      axios.get(`/api/editar-usuario/${res.data.id}`).then((res) => {
         this.setState({
-            [nam]: val
+          tarifa: res.data.tarifa,
+          valoracion: res.data.valoracion,
         });
+      });
+    });
+  }
+
+  redireccionLogin() {
+    if (this.state.id === null && this.state.username === "") {
+      window.location.replace("/");
     }
+  }
 
-    handleSubmit = (event) => {
-        let profileHeaders = {
-            'X-CSRFTOKEN': csrfCookie,
-            'Content-Type': 'application/json'
-        }
-
-        let userData = {
-            // id: this.state.id,
-            // username: this.state.username,
-            first_name: this.state.first_name,
-            last_name: this.state.last_name,
-            tarifa: this.state.tarifa,
-
-        };
-
-        axios.patch(`/api/editar-usuario/${this.state.id}`, userData, {
-            headers: profileHeaders
-        })
-            .then(res => {
-                // console.log(res);
-                this.setState({ editando: false });
-                this.obtenerDatosUsuario();
-            });
-
+  toggleEditando = () => {
+    if (this.state.editando) {
+      this.setState({
+        editando: false,
+      });
+      this.obtenerDatosUsuario();
+    } else {
+      this.setState({
+        editando: true,
+      });
     }
+    // console.log(this.state);
+  };
 
-    render() {
-        let tarifaServicio = "";
-        if (this.state.is_profesor) {
-            tarifaServicio = (
-                <div className="row">
-                    <div className="col-sm-3">
-                        <h6 className="mb-0">Tarifa de servicio</h6>
-                    </div>
+  handleInput = (event) => {
+    let nam = event.target.name;
+    let val = event.target.value;
+    this.setState({
+      [nam]: val,
+    });
+  };
 
-                    <div className="col-sm-9 text-secondary">
-                        <div className={this.state.editando ? "d-none" : ""}>
-                            S/. {this.state.tarifa}
-                        </div>
-                        <input
-                            className={this.state.editando ? "form-control" : "d-none"}
-                            type="number"
-                            step="0.01"
-                            // placeholder={this.state.tarifa}
-                            name="tarifa"
-                            value={this.state.tarifa}
-                            onInput={this.handleInput}
-                        />
-                    </div>
+  handleSubmit = (event) => {
+    let profileHeaders = {
+      "X-CSRFTOKEN": csrfCookie,
+      "Content-Type": "application/json",
+    };
+
+    let userData = {
+      // id: this.state.id,
+      // username: this.state.username,
+      first_name: this.state.first_name,
+      last_name: this.state.last_name,
+      tarifa: this.state.tarifa,
+    };
+
+    axios
+      .patch(`/api/editar-usuario/${this.state.id}`, userData, {
+        headers: profileHeaders,
+      })
+      .then((res) => {
+        // console.log(res);
+        this.setState({ editando: false });
+        this.obtenerDatosUsuario();
+      });
+  };
+
+  render() {
+    let tarifaServicio = "";
+    if (this.state.is_profesor) {
+      tarifaServicio = (
+        <div className="row">
+          <div className="col-sm-3">
+            <h6 className="mb-0">Tarifa de servicio</h6>
+          </div>
+
+          <div className="col-sm-9 text-secondary">
+            <div className={this.state.editando ? "d-none" : ""}>
+              S/. {this.state.tarifa}
+            </div>
+            <input
+              className={this.state.editando ? "form-control" : "d-none"}
+              type="number"
+              step="0.01"
+              // placeholder={this.state.tarifa}
+              name="tarifa"
+              value={this.state.tarifa}
+              onInput={this.handleInput}
+            />
+          </div>
+        </div>
+      );
+    }
+    return (
+      <div className="vh-100 align-items-center">
+        <div className="" style={{ marginTop: "3%" }}>
+          {/*<!--TARJETA DEL LADO IZQUIERDO CON LA IMAGEN-->*/}
+          <div className="card ">
+            <div className="card-body">
+              <div className="d-flex flex-column align-items-center text-center">
+                <img
+                  src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                  alt="Admin"
+                  className="rounded-circle"
+                  width="150"
+                />
+
+                <div className="mt-3">
+                  <h4>{`${this.state.first_name} ${this.state.last_name}`}</h4>
+                  <p className="text-secondary mb-1">
+                    {this.state.is_estudiante ? "Estudiante" : ""}
+                  </p>
+                  <p className="text-secondary mb-1">
+                    {this.state.is_profesor ? "Profesor" : ""}
+                  </p>
                 </div>
-            )
-        }
-        return (
-            <div className="row vh-100 align-items-center">
-                <div className="col-md-4 mb-auto" style={{ marginTop: '3%' }}>
-                    {/*<!--TARJETA DEL LADO IZQUIERDO CON LA IMAGEN-->*/}
-                    <div className="card ">
-                        <div className="card-body" >
-                            <div className="d-flex flex-column align-items-center text-center">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" className="rounded-circle" width="150" />
+              </div>
+            </div>
+          </div>
+        </div>
 
-                                <div className="mt-3">
-                                    <h4>{`${this.state.first_name} ${this.state.last_name}`}</h4>
-                                    <p className="text-secondary mb-1">{this.state.is_estudiante ? "Estudiante" : ""}</p>
-                                    <p className="text-secondary mb-1">{this.state.is_profesor ? "Profesor" : ""}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <div className="">
+          {/*<!--TARJETA CON LOS DATOS NOMBRE, CORREO,ETC-->*/}
+          <div className="card mb-3">
+            <div className="card-body">
+              {/* NOMBRES */}
+              <div className="row">
+                <div className="col-sm-3">
+                  <h6 className="mb-0">Nombres</h6>
+                </div>
+                <div className="col-sm-9 text-secondary">
+                  <div className={this.state.editando ? "d-none" : ""}>
+                    {`${this.state.first_name}`}
+                  </div>
+                  <input
+                    className={this.state.editando ? "form-control" : "d-none"}
+                    type="text"
+                    name="first_name"
+                    value={this.state.first_name}
+                    // placeholder={this.state.first_name}
+                    onInput={this.handleInput}
+                    // onChange={this.handleInput}
+                  />
+                </div>
+              </div>
+              <hr />
 
+              {/* APELLIDOS */}
+              <div className="row">
+                <div className="col-sm-3">
+                  <h6 className="mb-0">Apellidos</h6>
+                </div>
+                <div className="col-sm-9 text-secondary">
+                  <div className={this.state.editando ? "d-none" : ""}>
+                    {`${this.state.last_name}`}
+                  </div>
+                  <input
+                    className={this.state.editando ? "form-control" : "d-none"}
+                    type="text"
+                    name="last_name"
+                    value={this.state.last_name}
+                    // placeholder={this.state.last_name}
+                    onInput={this.handleInput}
+                    // onChange={this.handleInput}
+                  />
+                </div>
+              </div>
+              <hr />
 
-
+              {/*<!--NOMBRE DE USUARIO-->*/}
+              <div className="row">
+                <div className="col-sm-3">
+                  <h6 className="mb-0">Nombre de usuario</h6>
                 </div>
 
-                <div className="col-md-8 ">
-
-                    {/*<!--TARJETA CON LOS DATOS NOMBRE, CORREO,ETC-->*/}
-                    <div className="card mb-3">
-                        <div className="card-body">
-                            {/* NOMBRES */}
-                            <div className="row">
-                                <div className="col-sm-3">
-                                    <h6 className="mb-0">Nombres</h6>
-                                </div>
-                                <div className="col-sm-9 text-secondary">
-                                    <div className={this.state.editando ? "d-none" : ""}>
-                                        {`${this.state.first_name}`}
-                                    </div>
-                                    <input
-                                        className={this.state.editando ? "form-control" : "d-none"}
-                                        type="text"
-                                        name="first_name"
-                                        value={this.state.first_name}
-                                        // placeholder={this.state.first_name}
-                                        onInput={this.handleInput}
-                                    // onChange={this.handleInput}
-                                    />
-                                </div>
-                            </div>
-                            <hr />
-
-                            {/* APELLIDOS */}
-                            <div className="row">
-                                <div className="col-sm-3">
-                                    <h6 className="mb-0">Apellidos</h6>
-                                </div>
-                                <div className="col-sm-9 text-secondary">
-                                    <div className={this.state.editando ? "d-none" : ""}>
-                                        {`${this.state.last_name}`}
-                                    </div>
-                                    <input
-                                        className={this.state.editando ? "form-control" : "d-none"}
-                                        type="text"
-                                        name="last_name"
-                                        value={this.state.last_name}
-                                        // placeholder={this.state.last_name}
-                                        onInput={this.handleInput}
-                                    // onChange={this.handleInput}
-                                    />
-                                </div>
-                            </div>
-                            <hr />
-
-                            {/*<!--NOMBRE DE USUARIO-->*/}
-                            <div className="row">
-
-                                <div className="col-sm-3">
-                                    <h6 className="mb-0">Nombre de usuario</h6>
-                                </div>
-
-                                <div className="col-sm-9 text-secondary">
-                                    <a
-                                     className="text-primary"
-                                    >
-                                        @{this.state.username}
-                                    </a>
-                                    {/* <input
+                <div className="col-sm-9 text-secondary">
+                  <a className="text-primary">@{this.state.username}</a>
+                  {/* <input
                                         className={this.state.editando ? "form-control" : "d-none"}
                                         type="text"
                                         name="username"
@@ -219,30 +215,29 @@ export class Perfil extends Component {
                                         onInput={this.handleInput}
                                     // onChange={this.handleInput}
                                     /> */}
-                                </div>
+                </div>
+              </div>
 
-                            </div>
+              <hr />
 
-                            <hr />
+              {/*<!--VALORACION-->*/}
+              <div className="row">
+                <div className="col-sm-3">
+                  <h6 className="mb-0">Valoración</h6>
+                </div>
+                <div className="col-sm-9 text-secondary">
+                  {this.state.valoracion} / 10 <i className="fas fa-star"></i>
+                </div>
+              </div>
 
-                            {/*<!--VALORACION-->*/}
-                            <div className="row">
-                                <div className="col-sm-3">
-                                    <h6 className="mb-0">Valoración</h6>
-                                </div>
-                                <div className="col-sm-9 text-secondary">
-                                    {this.state.valoracion} / 10 <i className="fas fa-star"></i>
-                                </div>
-                            </div>
+              <hr />
 
-                            <hr />
+              {/*<!-- TARIFA: PROFESOR -->*/}
+              {tarifaServicio}
 
-                            {/*<!-- TARIFA: PROFESOR -->*/}
-                            {tarifaServicio}
+              <hr className={this.state.is_profesor ? "" : "d-none"} />
 
-                            <hr className={this.state.is_profesor ? "" : "d-none"} />
-
-                            <div className="row">
+              {/* <div className="row">
                                 <div className="col-sm-3">
                                     <h6 className="mb-0">
                                         <svg
@@ -272,9 +267,9 @@ export class Perfil extends Component {
                                     https://www.edupy.com
 
                                 </div>
-                            </div>
+                            </div> */}
 
-                            <hr />
+              {/* <hr />
                             <div className="row" >
                                 <div className="col-sm-3">
                                     <h6 className="mb-0">
@@ -388,43 +383,43 @@ export class Perfil extends Component {
                                     EDUPY
                                 </div>
                             </div>
-                            <hr />
+                            <hr /> */}
 
-                            <div className={this.state.editando ? "d-none" : "row"}>
-                                <div className="col-sm-12">
-                                    <button
-                                        className="btn btn-info"
-                                        onClick={this.toggleEditando}
-                                    >
-                                        Editar
-                                    </button>
-                                </div>
-                            </div>
-                            <div className={this.state.editando ? "row" : "d-none"}>
-                                <div className="col-sm-4 text-secondary">
-                                    <button
-                                        className="btn btn-primary px-4"
-                                        onClick={this.handleSubmit}
-                                    >
-                                        Confirmar
-                                    </button>
-                                </div>
-                                <div className="col-sm-4"></div>
-                                <div className="col-sm-4 text-secondary">
-                                    <button
-                                        className="btn btn-danger px-4"
-                                        onClick={this.toggleEditando}
-                                    >
-                                        Cancelar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+              <div className={this.state.editando ? "d-none" : "row"}>
+                <div className="col-sm-12">
+                  <button
+                    className="btn btn-info"
+                    onClick={this.toggleEditando}
+                  >
+                    Editar
+                  </button>
                 </div>
+              </div>
+              <div className={this.state.editando ? "row" : "d-none"}>
+                <div className="col-sm-4 text-secondary">
+                  <button
+                    className="btn btn-primary px-4"
+                    onClick={this.handleSubmit}
+                  >
+                    Confirmar
+                  </button>
+                </div>
+                <div className="col-sm-4"></div>
+                <div className="col-sm-4 text-secondary">
+                  <button
+                    className="btn btn-danger px-4"
+                    onClick={this.toggleEditando}
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </div>
             </div>
-        )
-    }
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default Perfil;

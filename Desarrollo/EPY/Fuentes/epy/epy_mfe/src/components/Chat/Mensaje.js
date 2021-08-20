@@ -13,9 +13,10 @@ export class Mensaje extends Component {
             bubble = (
                 <li className="chat-right">
                     <div className="chat-hour">{timestamp}</div>
-                    <div className="chat-text">{this.props.mensaje}</div>
-                    {/* <img src={this.props.adjunto} style={{width: '320px'}}/> */}
-                    {/* <a href={this.props.adjunto} target="_blank"></a> */}
+                    <div className="chat-text">
+                        {this.props.mensaje}
+                        <img src={this.props.imagen} alt=" " />
+                    </div>
                     <div className="chat-avatar">
                         <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin" />
                         <div className="chat-name">Tú</div>
@@ -29,9 +30,10 @@ export class Mensaje extends Component {
                         <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin" />
                         <div className="chat-name">{this.props.autor.first_name}</div>
                     </div>
-                    <div className="chat-text">{this.props.mensaje}</div>
-                    {/* <img src={this.props.adjunto} style={{width: '320px'}}/> */}
-                    {/* <a href={this.props.adjunto} target="_blank"></a> */}
+                    <div className="chat-text">
+                        {this.props.mensaje}
+                        <img src={this.props.imagen} alt=" " />
+                    </div>
                     <div className="chat-hour">{timestamp}</div>
                 </li>
             );
