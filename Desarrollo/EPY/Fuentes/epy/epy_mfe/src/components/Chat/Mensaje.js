@@ -18,7 +18,7 @@ export class Mensaje extends Component {
                         <img src={this.props.imagen} alt=" " />
                     </div>
                     <div className="chat-avatar">
-                        <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin" />
+                        <img src={this.props.autor.url_foto} alt=" " />
                         <div className="chat-name">Tú</div>
                     </div>
                 </li>
@@ -27,7 +27,7 @@ export class Mensaje extends Component {
             bubble = (
                 <li className="chat-left">
                     <div className="chat-avatar">
-                        <img src="https://www.bootdey.com/img/Content/avatar/avatar3.png" alt="Retail Admin" />
+                        <img src={this.props.autor.url_foto} alt=" " />
                         <div className="chat-name">{this.props.autor.first_name}</div>
                     </div>
                     <div className="chat-text">

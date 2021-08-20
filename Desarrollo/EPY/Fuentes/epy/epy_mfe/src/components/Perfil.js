@@ -17,7 +17,10 @@ export class Perfil extends Component {
       tarifa: "0.00",
       valoracion: 0,
 
+      foto: "",
+
       editando: false,
+      editandoFoto: false,
     };
     this.obtenerDatosUsuario();
   }
@@ -31,6 +34,7 @@ export class Perfil extends Component {
         last_name: res.data.last_name,
         is_estudiante: res.data.is_estudiante,
         is_profesor: res.data.is_profesor,
+        url_foto: res.data.url_foto,
       });
       this.redireccionLogin();
 
@@ -62,6 +66,45 @@ export class Perfil extends Component {
     }
     // console.log(this.state);
   };
+
+  toggleFoto = () => {
+    if (this.state.editandoFoto) {
+      this.setState({ editandoFoto: false });
+    } else {
+      this.setState({ editandoFoto: true });
+    }
+  };
+
+  subirFoto = () => {
+    if(this.state.foto === ""){
+      return
+    }
+    const imageData = new FormData();
+
+    imageData.append("file", this.state.foto);
+    imageData.append("upload_preset", "xxfnfjn1");
+    imageData.append("cloud_name", "dyzt1qzeb");
+
+    axios.post("https://api.cloudinary.com/v1_1/dyzt1qzeb/image/upload", imageData)
+    .then(res => {
+      // console.log(res);
+      const urlImagen = res.data.url;
+      
+      axios.patch(`/api/editar-usuario/${this.state.id}`, {
+        "url_foto" : urlImagen
+      }, {
+        headers: {
+          "X-CSRFTOKEN": csrfCookie,
+        }
+      }).then(resp => {
+        // console.log(resp);
+        this.setState({
+          foto: ""
+        });
+        window.location.reload();
+      })
+    })
+  }
 
   handleInput = (event) => {
     let nam = event.target.name;
@@ -98,6 +141,8 @@ export class Perfil extends Component {
 
   render() {
     let tarifaServicio = "";
+    let inputFoto = "";
+
     if (this.state.is_profesor) {
       tarifaServicio = (
         <div className="row">
@@ -113,7 +158,6 @@ export class Perfil extends Component {
               className={this.state.editando ? "form-control" : "d-none"}
               type="number"
               step="0.01"
-              // placeholder={this.state.tarifa}
               name="tarifa"
               value={this.state.tarifa}
               onInput={this.handleInput}
@@ -122,6 +166,20 @@ export class Perfil extends Component {
         </div>
       );
     }
+
+    if (this.state.editandoFoto) {
+      inputFoto = (
+        <div className="form-group">
+          <input
+            type="file"
+            className="form-control"
+            onChange={(e) => this.setState({ foto: e.target.files[0] })}
+          />
+          <button onClick={this.subirFoto} className="btn btn-success btn-sm">Guardar nueva foto</button>
+        </div>
+      );
+    }
+
     return (
       <div className="vh-100 align-items-center">
         <div className="" style={{ marginTop: "3%" }}>
@@ -130,11 +188,22 @@ export class Perfil extends Component {
             <div className="card-body">
               <div className="d-flex flex-column align-items-center text-center">
                 <img
-                  src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                  src={this.state.url_foto}
                   alt="Admin"
                   className="rounded-circle"
                   width="150"
                 />
+
+                {/* Editar foto de perfil */}
+                <button
+                  onClick={this.toggleFoto}
+                  className={`btn btn-sm ${
+                    this.state.editandoFoto ? "btn-danger" : "btn-primary"
+                  }`}
+                >
+                  {this.state.editandoFoto ? "Cancelar" : "Cambiar foto"}
+                </button>
+                {inputFoto}
 
                 <div className="mt-3">
                   <h4>{`${this.state.first_name} ${this.state.last_name}`}</h4>
@@ -168,9 +237,7 @@ export class Perfil extends Component {
                     type="text"
                     name="first_name"
                     value={this.state.first_name}
-                    // placeholder={this.state.first_name}
                     onInput={this.handleInput}
-                    // onChange={this.handleInput}
                   />
                 </div>
               </div>

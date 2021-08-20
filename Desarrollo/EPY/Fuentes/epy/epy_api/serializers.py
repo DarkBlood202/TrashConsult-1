@@ -5,17 +5,11 @@ from .models import (
     User,
     Estudiante,
     Profesor,
-    Archivo,
     Sesion,
     Mensaje,
     MensajeMultimedia,
     Reporte,
 )
-
-# class ArchivoSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Archivo
-#         fields = '__all__'
 
 
 class UsuarioSerializer(serializers.HyperlinkedModelSerializer):
@@ -29,13 +23,14 @@ class UsuarioSerializer(serializers.HyperlinkedModelSerializer):
             "is_estudiante",
             "is_profesor",
             "is_admin",
+            "url_foto",
         ]
 
 
 class UsuarioMiniSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "username", "first_name", "last_name"]
+        fields = ["id", "username", "first_name", "last_name", "url_foto"]
 
 
 class TipoUsuarioSerializer(serializers.ModelSerializer):
@@ -43,7 +38,15 @@ class TipoUsuarioSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["id", "username", "first_name", "last_name", "valoracion", "tarifa"]
+        fields = [
+            "id",
+            "username",
+            "first_name",
+            "last_name",
+            "valoracion",
+            "tarifa",
+            "url_foto",
+        ]
 
 
 class UsuarioCreateSerializer(serializers.ModelSerializer):
@@ -146,10 +149,13 @@ class MensajeMultimediaSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def to_representation(self, instance):
-        representation = super(MensajeMultimediaSerializer, self).to_representation(instance)
+        representation = super(MensajeMultimediaSerializer, self).to_representation(
+            instance
+        )
         representation["autor"] = UsuarioMiniSerializer(instance.autor).data
         representation["sesion"] = SesionMiniSerializer(instance.sesion).data
         return representation
+
 
 class ReporteSerializer(serializers.ModelSerializer):
     class Meta:
