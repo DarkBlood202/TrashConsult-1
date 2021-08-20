@@ -11,5 +11,4 @@ build/
 dist/
 package-lock.json
 db.sqlite3
-0001_initial.py
 node_modules
