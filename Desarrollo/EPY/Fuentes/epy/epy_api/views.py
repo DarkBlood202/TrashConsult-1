@@ -90,11 +90,18 @@ class MensajeViewSet(viewsets.ModelViewSet):
         permissions.IsAuthenticated,
     ]
 
-class ArchivoViewSet(viewsets.ModelViewSet):
-    queryset = Archivo.objects.all()
-    serializer_class = ArchivoSerializer
-    parser_classes = [MultiPartParser]
-    http_method_names = ['get', 'post', 'delete']
+class MensajeMultimediaViewSet(viewsets.ModelViewSet):
+    queryset = MensajeMultimedia.objects.all()
+    serializer_class = MensajeMultimediaSerializer
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
+# class ArchivoViewSet(viewsets.ModelViewSet):
+#     queryset = Archivo.objects.all()
+#     serializer_class = ArchivoSerializer
+#     parser_classes = [MultiPartParser]
+#     http_method_names = ['get', 'post', 'delete']
 
 class ReporteViewSet(viewsets.ModelViewSet):
     queryset = Reporte.objects.all()

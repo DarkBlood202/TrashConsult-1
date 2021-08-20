@@ -10,7 +10,8 @@ router.register('estudiantes', views.EstudianteViewSet)
 router.register('profesores', views.ProfesorViewSet)
 router.register('crear-sesion', views.SesionViewSet)
 router.register('mensajes', views.MensajeViewSet)
-router.register('archivos', views.ArchivoViewSet)
+router.register('mensajes-multimedia', views.MensajeMultimediaViewSet)
+# router.register('archivos', views.ArchivoViewSet)
 router.register('reportes', views.ReporteViewSet)
 
 usuario_data_detail = views.UsuarioDataUpdateViewSet.as_view({
