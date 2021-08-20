@@ -4,22 +4,31 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.parsers import MultiPartParser, FileUploadParser, FormParser
 
-from .models import Pregunta, User, Estudiante, Profesor, Sesion, Mensaje, Reporte, Archivo
+from .models import Pregunta, User, Estudiante, Profesor, Sesion, Mensaje, Reporte
 from .serializers import *
-from .permissions import IsAuthorOrReadOnly, IsOwnerProfileOrReadOnly as IsOwnerUserOrReadOnly, IsSameUserOrReadOnly
+from .permissions import (
+    IsAuthorOrReadOnly,
+    IsOwnerProfileOrReadOnly as IsOwnerUserOrReadOnly,
+    IsSameUserOrReadOnly,
+)
 
-@api_view(['GET'])
+
+@api_view(["GET"])
 def api_root(request, format=None):
-    return Response({
-        'usuarios': reverse('lista-usuarios', request=request, format=format),
-        'preguntas': reverse('lista-preguntas', request=request, format=format)
-    })
+    return Response(
+        {
+            "usuarios": reverse("lista-usuarios", request=request, format=format),
+            "preguntas": reverse("lista-preguntas", request=request, format=format),
+        }
+    )
+
 
 # Create your views here.
 class PreguntaViewSet(viewsets.ModelViewSet):
     """
     El ViewSet provee vista de lista y detalle, operaciones CUD.
     """
+
     queryset = Pregunta.objects.all()
     serializer_class = PreguntaSerializer
     # parser_classes = [MultiPartParser]
@@ -30,44 +39,46 @@ class PreguntaViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(autor=self.request.user)
 
+
 class UsuarioViewSet(viewsets.ReadOnlyModelViewSet):
     """
     El ViewSet provee vista de lista y de detalle.
     """
+
     queryset = User.objects.all()
     serializer_class = UsuarioSerializer
     permission_classes = [permissions.AllowAny]
+
 
 class UsuarioCreate(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UsuarioCreateSerializer
     permission_classes = [permissions.AllowAny]
 
+
 class UsuarioActual(views.APIView):
     def get(self, req):
         serializer = UsuarioSerializer(req.user)
         return Response(serializer.data)
 
+
 class EstudianteViewSet(viewsets.ModelViewSet):
     queryset = Estudiante.objects.all()
     serializer_class = EstudianteSerializer
-    permission_classes = [
-        permissions.IsAuthenticated,
-        IsOwnerUserOrReadOnly
-    ]
+    permission_classes = [permissions.IsAuthenticated, IsOwnerUserOrReadOnly]
+
 
 class ProfesorViewSet(viewsets.ModelViewSet):
     queryset = Profesor.objects.all()
     serializer_class = ProfesorSerializer
-    permission_classes = [
-        permissions.IsAuthenticated,
-        IsOwnerUserOrReadOnly
-    ]
+    permission_classes = [permissions.IsAuthenticated, IsOwnerUserOrReadOnly]
+
 
 class UsuarioDataUpdateViewSet(viewsets.ModelViewSet):
     """
     Provides update methods to user data.
     """
+
     queryset = User.objects.all()
     serializer_class = TipoUsuarioSerializer
     permission_classes = [
@@ -75,12 +86,14 @@ class UsuarioDataUpdateViewSet(viewsets.ModelViewSet):
         # IsSameUserOrReadOnly
     ]
 
+
 class SesionViewSet(viewsets.ModelViewSet):
     queryset = Sesion.objects.all()
     serializer_class = SesionSerializer
     permission_classes = [
         permissions.IsAuthenticated,
     ]
+
 
 class MensajeViewSet(viewsets.ModelViewSet):
     queryset = Mensaje.objects.all()
@@ -90,6 +103,7 @@ class MensajeViewSet(viewsets.ModelViewSet):
         permissions.IsAuthenticated,
     ]
 
+
 class MensajeMultimediaViewSet(viewsets.ModelViewSet):
     queryset = MensajeMultimedia.objects.all()
     serializer_class = MensajeMultimediaSerializer
@@ -97,11 +111,6 @@ class MensajeMultimediaViewSet(viewsets.ModelViewSet):
         permissions.IsAuthenticated,
     ]
 
-# class ArchivoViewSet(viewsets.ModelViewSet):
-#     queryset = Archivo.objects.all()
-#     serializer_class = ArchivoSerializer
-#     parser_classes = [MultiPartParser]
-#     http_method_names = ['get', 'post', 'delete']
 
 class ReporteViewSet(viewsets.ModelViewSet):
     queryset = Reporte.objects.all()

@@ -298,7 +298,6 @@ export default function ChatRoom() {
                 key={obtenerKey()}
                 mensaje={mensaje.contenido}
                 imagen={mensaje.multimedia}
-                // adjunto={mensaje.adjunto.archivo}
                 propio={mensaje.autor.id === user.id ? true : false}
                 timestamp={mensaje.timestamp}
                 autor={mensaje.autor}

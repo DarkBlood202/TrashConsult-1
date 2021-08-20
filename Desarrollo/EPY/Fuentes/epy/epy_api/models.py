@@ -10,7 +10,7 @@ class User(AbstractUser):
     is_admin = models.BooleanField(default=False)
     valoracion = models.FloatField(default=10)
     tarifa = models.DecimalField(max_digits=8, decimal_places=2, default=0.01)
-
+    url_foto = models.URLField(default="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg")
 
 class Pregunta(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)

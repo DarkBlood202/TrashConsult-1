@@ -20,7 +20,7 @@ export class Chats extends Component {
       this.setState({
         usuario: res.data,
       });
-    //   console.log(this.state.usuario.id);
+      //   console.log(this.state.usuario.id);
     });
   }
 
@@ -70,7 +70,7 @@ export class Chats extends Component {
                                 .map((p) => `${p.first_name} ${p.last_name}`)
                                 .join(" y ")}
                               sessionKey={sesion.id_key}
-                              img="https://www.bootdey.com/img/Content/avatar/avatar3.png"
+                              img="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"
                               status="status busy"
                               nuevo={sesion.nuevo}
                               costo={sesion.participantes.reduce(

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Pregunta, Estudiante, Profesor, Sesion, User, Archivo
+from .models import Pregunta, Estudiante, Profesor, Sesion, User
 
 # Register your models here.
 @admin.register(User)
@@ -27,5 +27,3 @@ class ProfesorAdmin(admin.ModelAdmin):
 @admin.register(Sesion)
 class SesionAdmin(admin.ModelAdmin):
     pass
-
-admin.site.register(Archivo)
