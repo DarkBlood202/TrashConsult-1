@@ -1,0 +1,14 @@
+.vscode
+__pycache__/
+*.py[cod]
+.Python
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+*.log
+target/
+build/
+dist/
+package-lock.json
+db.sqlite3
+node_modules
